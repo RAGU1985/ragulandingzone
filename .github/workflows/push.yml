@@ -59,7 +59,7 @@ jobs:
           echo 'resource_group_name = "BDOTest1"' >> backend.tf
           echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
           echo 'container_name = "containervaani"' >> backend.tf
-          echo 'key = "${var.branch}/terraform.tfstate"' >> backend.tf
+          echo 'key = "main/terraform.tfstate"' >> backend.tf
           echo ' }' >> backend.tf
           echo '}' >> backend.tf
   
