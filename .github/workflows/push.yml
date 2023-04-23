@@ -62,7 +62,7 @@ jobs:
       - name: Terraform init
         with:
           backend-config-key: ${{ github.head_ref }}
-        run: terraform init -backend=true -reconfigure
+        run: terraform init -backend=true -reconfigure -backend-config="key=${{ github.head_ref }}/terraform.tfstate" -backend-config="storage_account_name=vaaniravinderg" -backend-config="container_name=containervaani" -backend-config="resource_group_name=BDOTest1" -backend-config="access_key=$accountKey"
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
