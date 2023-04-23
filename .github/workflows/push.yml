@@ -34,8 +34,6 @@ jobs:
         run: terraform fmt -check
   
       - name: Terraform validate
-        with:
-          terraform_wrapper: false
         run: terraform validate
         
   
@@ -62,11 +60,8 @@ jobs:
       #    echo '}' >> backend.tf
   
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      - name: Terraform init
-        uses: hashicorp/setup-terraform@v2
-        with:
-          backend-config-key: ${{ github.head_ref }}
-        run: terraform init -backend=true -reconfigure -backend-config="key=${{ github.head_ref }}/terraform.tfstate" -backend-config="storage_account_name=vaaniravinderg" -backend-config="container_name=containervaani" -backend-config="resource_group_name=BDOTest1" -backend-config="access_key=$accountKey"
+      - name: Terraform Init
+        run: terraform init
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
