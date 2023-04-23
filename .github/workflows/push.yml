@@ -41,23 +41,27 @@ jobs:
         run: |
           tfstate_file=".terraform/terraform.tfstate"
           if [ ! -f "$tfstate_file" ]; then
+            # Create RG
             az group create --name BDOTest1 --location eastus
+            # Create Storage and container
             az storage account create --name vaaniravinderg --resource-group BDOTest1 --location eastus --sku Standard_LRS --kind StorageV2 --encryption-services blob
             accountKey=$(az storage account keys list --account-name vaaniravinderg --resource-group BDOTest1 --output tsv --query "[0].value")
             az storage container create --name containervaani --account-name vaaniravinderg --account-key $accountKey
+            # Enable storage versioning
+            az storage account blob-service-properties update --account-name vaaniravinderg --resource-group BDOTest1 --enable-versioning true
           fi
         shell: bash
    
-      #- name: Generate backend.tf
-      #  run: |
-      #    echo 'terraform {' > backend.tf
-      #    echo 'backend "azurerm" {' >> backend.tf
-      #    echo 'resource_group_name = "<RESOURCE_GROUP_NAME>"' >> backend.tf
-      #    echo 'storage_account_name = "<STORAGE_ACCOUNT_NAME>"' >> backend.tf
-      #    echo 'container_name = "<CONTAINER_NAME>"' >> backend.tf
-      #    echo 'key = "${var.branch}/terraform.tfstate"' >> backend.tf
-      #    echo ' }' >> backend.tf
-      #    echo '}' >> backend.tf
+      - name: Generate backend.tf
+        run: |
+          echo 'terraform {' > backend.tf
+          echo 'backend "azurerm" {' >> backend.tf
+          echo 'resource_group_name = "BDOTest1"' >> backend.tf
+          echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
+          echo 'container_name = "containervaani"' >> backend.tf
+          echo 'key = "${var.branch}/terraform.tfstate"' >> backend.tf
+          echo ' }' >> backend.tf
+          echo '}' >> backend.tf
   
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -67,7 +71,17 @@ jobs:
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
       - name: Terraform Plan
         id: tf-plan
-        run: terraform plan -out=tfplan
+        run: |
+          export exitcode=0
+          terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+         
+          if [ $exitcode -eq 1 ]; then
+            echo Terraform Plan Failed!
+            exit 1
+          else
+            exit 0
+          fi
   
       - name: Install Terrascan
         run: wget https://github.com/accurics/terrascan/releases/latest/download/terrascan_${{ runner.os }}_x86_64.tar.gz # FULL command to be added
