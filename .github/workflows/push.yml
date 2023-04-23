@@ -103,8 +103,11 @@ jobs:
           fi
   
       - name: Install Terrascan
-        run: wget https://github.com/accurics/terrascan/releases/latest/download/terrascan_${{ runner.os }}_x86_64.tar.gz # FULL command to be added
-  
+        run: |
+          wget https://github.com/accurics/terrascan/releases/download/v1.8.0/terrascan_1.8.0_linux_amd64.tar.gz
+          tar xvzf terrascan_1.8.0_linux_amd64.tar.gz
+          sudo mv terrascan /usr/local/bin/
+          
       - name: Run Terrascan
         run: |
          terrascan scan -i terraform -d ./
