@@ -61,8 +61,7 @@ jobs:
       - name: Terraform init
         with:
           backend-config-key: ${{ github.head_ref }}
-        run: |
-          terraform init -backend=true -reconfigure
+        run: terraform init -backend=true -reconfigure
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
