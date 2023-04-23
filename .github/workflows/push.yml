@@ -52,20 +52,23 @@ jobs:
           fi
         shell: bash
    
-      - name: Generate backend.tf
-        run: |
-          echo 'terraform {' > backend.tf
-          echo 'backend "azurerm" {' >> backend.tf
-          echo 'resource_group_name = "BDOTest1"' >> backend.tf
-          echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
-          echo 'container_name = "containervaani"' >> backend.tf
-          echo 'key = "terraform.tfstate"' >> backend.tf
-          echo ' }' >> backend.tf
-          echo '}' >> backend.tf
+      #- name: Generate backend.tf
+      #  run: |
+      #    echo 'terraform {' > backend.tf
+      #    echo 'backend "azurerm" {' >> backend.tf
+      #    echo 'resource_group_name = "BDOTest1"' >> backend.tf
+      #    echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
+      #    echo 'container_name = "containervaani"' >> backend.tf
+      #    echo 'key = "terraform.tfstate"' >> backend.tf
+      #    echo ' }' >> backend.tf
+      #    echo '}' >> backend.tf
   
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init -backend-config=./backend.tf
+        run: terraform init -backend-config="resource_group_name=BDOTest1" \
+                      -backend-config="storage_account_name=vaaniravinderg" \
+                      -backend-config="container_name=containervaani" \
+                      -backend-config="key=terraform.tfstate"
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
