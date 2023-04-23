@@ -59,13 +59,13 @@ jobs:
           echo 'resource_group_name = "BDOTest1"' >> backend.tf
           echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
           echo 'container_name = "containervaani"' >> backend.tf
-          echo 'key = "main/terraform.tfstate"' >> backend.tf
+          echo 'key = "terraform.tfstate"' >> backend.tf
           echo ' }' >> backend.tf
           echo '}' >> backend.tf
   
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init -backend-config="access_key=${accountKey}"
+        run: terraform init -backend-config=./backend.tf
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
