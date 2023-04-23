@@ -104,13 +104,13 @@ jobs:
   
       - name: Install Terrascan
         run: |
-          wget https://github.com/tenable/terrascan/releases/download/v1.18.1/terrascan_1.18.1_Darwin_arm64.tar.gz
-          tar xvzf terrascan_1.18.1_Darwin_arm64.tar.gz
+          wget https://github.com/tenable/terrascan/releases/download/v1.18.1/terrascan_1.18.1_Linux_arm64.tar.gz
+          tar xvzf terrascan_1.18.1_Linux_arm64.tar.gz
           sudo mv terrascan /usr/local/bin/
 
       - name: Run Terrascan
         run: |
-         terrascan scan
+         terrascan scan -d .
         env:
          TS_ALLOW_DOWNLOADS: "true"
   
