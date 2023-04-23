@@ -117,7 +117,7 @@ jobs:
       - name: Install Terraform Linter
         run: |
          curl -sL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-         sudo mv tflint /usr/local/bin/
+         #sudo mv tflint /usr/local/bin/
         shell: bash
    
          
