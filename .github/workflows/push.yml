@@ -110,7 +110,7 @@ jobs:
 
       - name: Run Terrascan
         run: |
-         terrascan scan -i terraform -d ./
+         terrascan scan -i terraform -d .
         env:
          TS_ALLOW_DOWNLOADS: "true"
   
