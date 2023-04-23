@@ -65,8 +65,8 @@ jobs:
       #    cat backend.tf
   
       - name: Initialize Terraform Backend
-        env:
-          ARM_ACCESS_KEY: $accountKey
+        #env:
+        #  ARM_ACCESS_KEY: $accountKey
         run: |
           touch backend.tf
           cat <<EOF > backend.tf
