@@ -22,3 +22,91 @@ jobs:
         run: |
           az account show
           az group list
+
+      # Install the latest version of the Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+  
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
+  
+      - name: Terraform validate
+        run: terraform validate
+  
+      - name: Check Terraform Backend Configuration and Create if Non-EXISTENT
+        run: |
+          tfstate_file=".terraform/terraform.tfstate"
+          if [ ! -f "$tfstate_file" ]; then
+            az group create --name BDOTest1 --location eastus
+            az storage account create --name vaaniravinderg --resource-group BDOTest1 --location eastus --sku Standard_LRS --kind StorageV2 --encryption-services blob
+            az storage container create --name containervaani --account-name vaaniravinderg --account-key ${{ secrets.AZURE_STORAGE_ACCESS_KEY }}
+          fi
+        shell: bash
+   
+      #- name: Generate backend.tf
+      #  run: |
+      #    echo 'terraform {' > backend.tf
+      #    echo 'backend "azurerm" {' >> backend.tf
+      #    echo 'resource_group_name = "<RESOURCE_GROUP_NAME>"' >> backend.tf
+      #    echo 'storage_account_name = "<STORAGE_ACCOUNT_NAME>"' >> backend.tf
+      #    echo 'container_name = "<CONTAINER_NAME>"' >> backend.tf
+      #    echo 'key = "${var.branch}/terraform.tfstate"' >> backend.tf
+      #    echo ' }' >> backend.tf
+      #    echo '}' >> backend.tf
+  
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform init
+        with:
+          backend-config-key: ${{ github.head_ref }}
+        run: |
+          terraform init -backend=true -reconfigure
+  
+      # Generates an execution plan for Terraform
+      # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
+      - name: Terraform Plan
+        id: tf-plan
+        run: |
+          export exitcode=0
+          terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+         
+          if [ $exitcode -eq 1 ]; then
+            echo Terraform Plan Failed!
+            exit 1
+          else
+            exit 0
+          fi
+  
+      - name: Install Terrascan
+        run: wget https://github.com/accurics/terrascan/releases/latest/download/terrascan_${{ runner.os }}_x86_64.tar.gz # FULL command to be added
+  
+      - name: Run Terrascan
+        run: |
+         terrascan scan -i terraform -d ./
+        env:
+         TS_ALLOW_DOWNLOADS: "true"
+  
+      - name: Install Terraform Linter
+        run: |
+         curl -sL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+         sudo mv tflint /usr/local/bin/
+        shell: bash
+   
+         
+      - name: Run Terraform Linter
+        run: |
+         tflint
+        env:
+          TF_VERSION: "1.0.0"
+         
+         
+      # Save plan to artifacts  
+      - name: Publish Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: tfplan
+  
