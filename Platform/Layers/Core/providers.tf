@@ -5,7 +5,6 @@ terraform {
       version               = "~> 3.42.0"
     }
   }
-  backend "azurerm" {}
 }
 
 # Declare a standard provider block using your preferred configuration.
