@@ -63,19 +63,16 @@ jobs:
         env:
           ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
         run: |
-          tfstate_file=".terraform/terraform.tfstate"
-          if [ ! -f "$tfstate_file" ]; then
-            touch backend.tf
-            cat <<EOF > backend.tf
-            terraform {
-              backend "azurerm" {
-                storage_account_name = "vaaniravinderg"
-                container_name       = "containervaani"
-                key                  = "terraform.tfstate"
-              }
-            }
-            EOF
-          fi  
+          #touch backend.tf
+          #cat <<EOF > backend.tf
+          #terraform {
+          #  backend "azurerm" {
+          #    storage_account_name = "vaaniravinderg"
+          #    container_name       = "containervaani"
+          #    key                  = "terraform.tfstate"
+          #  }
+          #}
+          #EOF 
           terraform init
 
       - name: Terraform validate
