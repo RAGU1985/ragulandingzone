@@ -60,7 +60,7 @@ jobs:
               key                  = "terraform.tfstate"
             }
           }
-          EOF 
+          EOF
           terraform init
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
 
