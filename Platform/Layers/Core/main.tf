@@ -8,7 +8,7 @@ data "azurerm_client_config" "core" {}
 ##### Module for Subscriptions #########
 
 module "subscription" {
-  source = "../../../modules/subscription"
+  source = "./Modules/modules/subscription"
   subscriptions = var.subscriptions
 }
 
