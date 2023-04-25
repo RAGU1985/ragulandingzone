@@ -34,8 +34,6 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check
   
-      - name: Terraform validate
-        run: terraform validate
         
   
       - name: Check Terraform Backend Configuration and Create if Non-EXISTENT
@@ -80,6 +78,9 @@ jobs:
           }
           EOF
           terraform init
+
+      - name: Terraform validate
+        run: terraform validate
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       #- name: Terraform Init
