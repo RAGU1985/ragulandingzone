@@ -46,33 +46,21 @@ jobs:
             az storage account blob-service-properties update --account-name vaaniravinderg --resource-group BDOTest1 --enable-versioning true
           fi
         shell: bash
-   
-      #- name: Generate backend.tf
-      #  run: |
-      #    echo 'terraform {' > backend.tf
-      #    echo 'backend "azurerm" {' >> backend.tf
-      #    echo 'resource_group_name = "BDOTest1"' >> backend.tf
-      #    echo 'storage_account_name = "vaaniravinderg"' >> backend.tf
-      #    echo 'container_name = "containervaani"' >> backend.tf
-      #    echo 'key = "terraform.tfstate"' >> backend.tf
-      #    echo ' }' >> backend.tf
-      #    echo '}' >> backend.tf
-      #    cat backend.tf
   
       - name: Initialize Terraform Backend
         env:
           ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
         run: |
-          #touch backend.tf
-          #cat <<EOF > backend.tf
-          #terraform {
-          #  backend "azurerm" {
-          #    storage_account_name = "vaaniravinderg"
-          #    container_name       = "containervaani"
-          #    key                  = "terraform.tfstate"
-          #  }
-          #}
-          #EOF 
+          touch backend.tf
+          cat <<EOF > backend.tf
+          terraform {
+            backend "azurerm" {
+              storage_account_name = "vaaniravinderg"
+              container_name       = "containervaani"
+              key                  = "terraform.tfstate"
+            }
+          }
+          EOF 
           terraform init
 
       - name: Terraform validate
