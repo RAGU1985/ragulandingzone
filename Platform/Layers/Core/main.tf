@@ -156,9 +156,3 @@ module "enterprise_scale" {
     module.subscription
   ]
 }
-
-
-module "conditionalaccess" {
-  source = "../../../modules/conditionalaccess"
-  conditional_access = var.conditional_access
-}
