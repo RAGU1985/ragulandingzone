@@ -62,6 +62,7 @@ jobs:
           }
           EOF 
           terraform init
+        working-directory: ${{ github.workspace }}/Platform/Layers/Core
 
       - name: Terraform validate
         run: terraform validate
