@@ -1,0 +1,16 @@
+{
+    "es_root": {
+      "policy_assignments": [],
+      "policy_definitions": [],
+      "policy_set_definitions": [
+        "Audit-Az-Defender",
+        "Audit-MFA-On-Sub",
+        "Deploy-Diagnostics-LogAnalytics"
+      ],
+      "role_definitions": [],
+      "archetype_config": {
+        "parameters": {},
+        "access_control": {}
+      }
+    }
+  }

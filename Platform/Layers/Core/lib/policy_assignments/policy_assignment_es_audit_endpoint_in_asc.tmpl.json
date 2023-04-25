@@ -1,0 +1,18 @@
+{
+  "name": "Audit-endpoint-in-ASC",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Servers without an installed Endpoint Protection agent will be monitored by Azure Security Center as recommendations",
+    "displayName": "Monitor missing Endpoint Protection in Azure Security Center",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af6cd1bd-1635-48cb-bde7-5b15693900b9",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "None"
+  }
+}

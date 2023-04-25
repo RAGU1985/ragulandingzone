@@ -1,0 +1,42 @@
+{
+    "es_platform": {
+        "policy_assignments": [
+            "Audit-network-port-nsg",
+            "Audit-restrict-vm-nsg",
+            "Audit-subnet-link-nsg",
+            "Audit-secure-sa-cmk",
+            "Deny-kv-key-wo-expiry",
+            "Audit-kv-secret-expiry",
+            "Audit-kv-cert-expiry",
+            "Audit-kv-purge-protect",
+            "Audit-kv-soft-delete",
+            "Audit-kv-firewall",
+            "Audit-kv-enable-pe",
+            "Audit-diag-log-enable",
+            "Audit-linux-vm-ssh",
+            "Audit-sub-multi-owner",
+            "Audit-sub-max-owner",
+            "Audit-sub-rm-dep-owner",
+            "Audit-sub-rm-ext-owner",
+            "Audit-vm-jit-mgmt-port",
+            "Audit-sub-rm-ext-write",
+            "Audit-sub-rm-ext-read",
+            "Audit-sub-rm-dep-account",
+            "Audit-custom-rbac-use",
+            "Audit-sub-alert-owner",
+            "Audit-sub-has-email",
+            "Audit-sub-alert-email",
+            "Audit-network-watcher",
+            "Audit-Az-Defender",
+            "Audit-MFA-On-Sub",
+            "Deploy-Resource-Diag"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

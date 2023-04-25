@@ -1,0 +1,18 @@
+{
+  "name": "Audit-DDoS-VNET",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "DDoS protection standard should be enabled for all virtual networks with a subnet that is part of an application gateway with a public IP.",
+    "displayName": "Azure DDoS Protection Standard should be enabled",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7aca53f-2ed4-4466-a25e-0b45ade68efd",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "None"
+  }
+}

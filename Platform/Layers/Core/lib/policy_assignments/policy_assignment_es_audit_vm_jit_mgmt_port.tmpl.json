@@ -1,0 +1,18 @@
+{
+  "name": "Audit-vm-jit-mgmt-port",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Possible network Just In Time (JIT) access will be monitored by Azure Security Center as recommendations",
+    "displayName": "Management ports of virtual machines should be protected with just-in-time network access control",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "None"
+  }
+}

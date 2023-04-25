@@ -1,0 +1,21 @@
+{
+    "es_identity": {
+        "policy_assignments": [
+            "Audit-VM-Disk-Encrypt",
+            "Audit-net-data-agent-lin",
+            "Audit-net-data-agent-win",
+            "Audit-la-agent-on-vm",
+            "Audit-endpoint-protect",
+            "Audit-endpoint-health-vm",
+            "Audit-endpoint-in-ASC",
+            "Deploy-VM-Backup"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Audit-sub-rm-ext-write",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "External accounts with write privileges should be removed from your subscription in order to prevent unmonitored access.",
+    "displayName": "External accounts with write permissions should be removed from your subscription",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5c607a2e-c700-4744-8254-d77e7c9eb5e4",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "None"
+  }
+}
