@@ -17,7 +17,7 @@ module "subscription" {
 
 module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "3.3.0"
+  version = "3.0.0"
 
   providers = {
     azurerm              = azurerm
