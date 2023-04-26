@@ -94,6 +94,9 @@ jobs:
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
 
       - name: Terraform Apply
+        env:
+          ARM_ACCESS_KEY: ${{ steps.check_backend.outputs.accountKey }}
+        id: tf-apply
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
