@@ -40,6 +40,7 @@ jobs:
         
   
       - name: Check Terraform Backend Configuration and Create if Non-EXISTENT
+        id: check_backend
         run: |
           tfstate_file=".terraform/terraform.tfstate"
           if [ ! -f "$tfstate_file" ]; then
@@ -51,12 +52,13 @@ jobs:
             az storage container create --name containervaani --account-name vaaniravinderg --account-key $accountKey
             # Enable storage versioning
             az storage account blob-service-properties update --account-name vaaniravinderg --resource-group BDOTest1 --enable-versioning true
+            echo "::set-output name=accountKey::$accountKey"
           fi
         shell: bash
   
       - name: Initialize Terraform Backend
         env:
-          ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
+          ARM_ACCESS_KEY: ${{ steps.check_backend.outputs.accountKey }}
         run: |
           touch backend.tf
           cat <<EOF > backend.tf
