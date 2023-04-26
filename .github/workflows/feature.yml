@@ -73,10 +73,6 @@ jobs:
 
       - name: Terraform validate
         run: terraform validate
-
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      #- name: Terraform Init
-      #  run: terraform init -reconfigure
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
