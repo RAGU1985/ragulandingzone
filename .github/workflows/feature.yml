@@ -7,9 +7,9 @@ permissions:
       contents: read
 
 env:
-  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID_PAYG }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID_PAYG }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID_PAYG }}"
 
 
 jobs:
@@ -19,9 +19,9 @@ jobs:
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID_PAYG }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_PAYG }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_PAYG }}
 
 
       - name: Checkout Repository
@@ -45,9 +45,9 @@ jobs:
           tfstate_file=".terraform/terraform.tfstate"
           if [ ! -f "$tfstate_file" ]; then
             # Create RG
-            az group create --name BDOTest1 --location eastus
+            az group create --name BDOTest1 --location brazilsouth
             # Create Storage and container
-            az storage account create --name vaaniravinderg --resource-group BDOTest1 --location eastus --sku Standard_LRS --kind StorageV2 --encryption-services blob
+            az storage account create --name vaaniravinderg --resource-group BDOTest1 --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
             accountKey=$(az storage account keys list --account-name vaaniravinderg --resource-group BDOTest1 --output tsv --query "[0].value")
             az storage container create --name containervaani --account-name vaaniravinderg --account-key $accountKey
             # Enable storage versioning
