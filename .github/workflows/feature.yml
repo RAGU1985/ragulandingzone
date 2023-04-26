@@ -105,7 +105,7 @@ jobs:
 
       - name: Run Terrascan
         run: |
-         terrascan scan -i terraform -d ./ --skip medium,low
+         terrascan scan -i terraform -d ./ --skip rule:MediumSeverity,rule:LowSeverity
         env:
          TS_ALLOW_DOWNLOADS: "true"
   
