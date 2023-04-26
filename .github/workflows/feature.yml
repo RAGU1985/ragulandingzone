@@ -94,7 +94,13 @@ jobs:
             exit 0
           fi
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
-  
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+        working-directory: ${{ github.workspace }}/Platform/Layers/Core
+
+
       - name: Install Terrascan
         run: |
           wget https://github.com/tenable/terrascan/releases/download/v1.18.1/terrascan_1.18.1_Linux_x86_64.tar.gz
