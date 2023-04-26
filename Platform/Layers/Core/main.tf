@@ -67,7 +67,7 @@ module "enterprise_scale" {
       "${var.root_id}-connectivity" = {
         display_name               = "${lower(var.root_id)}-connectivity"
         parent_management_group_id = "${var.root_id}-platform"
-        subscription_ids           = ["${module.subscription.subscription_id["sub-con-ext-01"]}","${module.subscription.subscription_id["sub-con-int-01"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "es_connectivity"
           parameters     = {}
@@ -78,7 +78,7 @@ module "enterprise_scale" {
       "${var.root_id}-management" = {
         display_name               = "${lower(var.root_id)}-management"
         parent_management_group_id = "${var.root_id}-platform"
-        subscription_ids           = ["${module.subscription.subscription_id["sub-man-02"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "es_management"
           parameters     = {}
@@ -89,7 +89,7 @@ module "enterprise_scale" {
       "${var.root_id}-identity" = {
         display_name               = "${lower(var.root_id)}-identity"
         parent_management_group_id = "${var.root_id}-platform"
-        subscription_ids           = ["${module.subscription.subscription_id["sub-idn-02"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "es_identity"
           parameters     = {}
@@ -111,7 +111,7 @@ module "enterprise_scale" {
       "${var.root_id}-prod" = {
         display_name               = "${lower(var.root_id)}-prod"
         parent_management_group_id = "${var.root_id}-landing-zones"
-        subscription_ids           = ["${module.subscription.subscription_id["sub-lzprd-sample-02"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
@@ -121,7 +121,7 @@ module "enterprise_scale" {
       "${var.root_id}-nonprod" = {
         display_name               = "${lower(var.root_id)}-nonprod"
         parent_management_group_id = "${var.root_id}-landing-zones"
-        subscription_ids           = ["${module.subscription.subscription_id["n-sub-lznprd-sample-02"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
@@ -131,7 +131,7 @@ module "enterprise_scale" {
       "${var.root_id}-dev" = {
         display_name               = "${lower(var.root_id)}-dev"
         parent_management_group_id = "${var.root_id}-landing-zones"
-        subscription_ids           = ["${module.subscription.subscription_id["d-sub-lzdev-sample-02"]}"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
@@ -142,7 +142,7 @@ module "enterprise_scale" {
       "${var.root_id}-sandboxes" = {
         display_name               = "${lower(var.root_id)}-sandboxes"
         parent_management_group_id = "${var.root_id}"
-        subscription_ids           = ["${module.subscription.subscription_id["n-sub-sandbox-04"]}"]
+        subscription_ids           = []
         archetype_config = {
           # archetype_id   = "default_empty"
           archetype_id   = "es_sandboxes"
