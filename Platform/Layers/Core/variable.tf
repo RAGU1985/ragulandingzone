@@ -1,10 +1,9 @@
 variable "root_id" {
   type    = string
-  default = "mg"
+  default = "mg-itaudev"
 }
 
 variable "root_name" {
   type    = string
-  default = "mg-root"
+  default = "Itaudev"
 }
-

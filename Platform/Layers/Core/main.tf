@@ -4,9 +4,6 @@
 # Management Group.
 
 data "azurerm_client_config" "core" {}
-#add another data by c
-
-##### Module for Subscriptions #########
 
 
 # Declare the Azure landing zones Terraform module
@@ -41,18 +38,8 @@ module "enterprise_scale" {
           access_control = {}
         }
        } 
-      "${var.root_id}-decommissioned" = {
-        display_name               = "${lower(var.root_id)}-decommissioned"
-        parent_management_group_id = "${var.root_id}"
-        subscription_ids           = []
-        archetype_config = {
-          archetype_id   = "default_empty"
-          parameters     = {}
-          access_control = {}
-        }
-      }
       "${var.root_id}-platform" = {
-        display_name               = "${lower(var.root_id)}-platform"
+        display_name               = "Platform"
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
@@ -61,9 +48,19 @@ module "enterprise_scale" {
           access_control = {}
         }
       }
-      "${var.root_id}-connectivity" = {
-        display_name               = "${lower(var.root_id)}-connectivity"
-        parent_management_group_id = "${var.root_id}-platform"
+      "${var.root_id}-landingzones" = {
+        display_name               = "Landing Zones"
+        parent_management_group_id = "${var.root_id}"
+        subscription_ids           = []
+        archetype_config = {
+          archetype_id   = "default_empty"
+          parameters     = {}
+          access_control = {}
+        }
+      }
+      "${var.root_id}-decom" = {
+        display_name               = "Decommissioned"
+        parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
@@ -72,9 +69,9 @@ module "enterprise_scale" {
         }
         # depends_on= [azurerm_subscription.connectivity1,azurerm_subscription.connectivity2]
       }
-      "${var.root_id}-management" = {
-        display_name               = "${lower(var.root_id)}-management"
-        parent_management_group_id = "${var.root_id}-platform"
+      "${var.root_id}-sandbox" = {
+        display_name               = "Sandbox"
+        parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
@@ -83,8 +80,8 @@ module "enterprise_scale" {
         }
         # depends_on= [azurerm_subscription.management1]
       }
-      "${var.root_id}-identity" = {
-        display_name               = "${lower(var.root_id)}-identity"
+      "${var.root_id}-iam" = {
+        display_name               = "Identity and Access Managment"
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
@@ -95,9 +92,29 @@ module "enterprise_scale" {
         # depends_on= [azurerm_subscription.identity1]
       }
       ##### landing zone #####
-      "${var.root_id}-landing-zones" = {
-        display_name               = "${lower(var.root_id)}-landing-zones"
-        parent_management_group_id = "${var.root_id}"
+      "${var.root_id}-management" = {
+        display_name               = "Management"
+        parent_management_group_id = "${var.root_id}-platform"
+        subscription_ids           = []
+        archetype_config = {
+          archetype_id   = "default_empty"
+          parameters     = {}
+          access_control = {}
+        }
+      }
+      "${var.root_id}-connectivity" = {
+        display_name               = "Connectivity"
+        parent_management_group_id = "${var.root_id}-platform"
+        subscription_ids           = []
+        archetype_config = {
+          archetype_id   = "default_empty"
+          parameters     = {}
+          access_control = {}
+        }
+      }
+      "${var.root_id}-secops" = {
+        display_name               = "Security Operations"
+        parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
@@ -106,18 +123,8 @@ module "enterprise_scale" {
         }
       }
       "${var.root_id}-prod" = {
-        display_name               = "${lower(var.root_id)}-prod"
-        parent_management_group_id = "${var.root_id}-landing-zones"
-        subscription_ids           = []
-        archetype_config = {
-          archetype_id   = "default_empty"
-          parameters     = {}
-          access_control = {}
-        }
-      }
-      "${var.root_id}-nonprod" = {
-        display_name               = "${lower(var.root_id)}-nonprod"
-        parent_management_group_id = "${var.root_id}-landing-zones"
+        display_name               = "Prod"
+        parent_management_group_id = "${var.root_id}-landingzones"
         subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
@@ -126,8 +133,8 @@ module "enterprise_scale" {
         }
       }
       "${var.root_id}-dev" = {
-        display_name               = "${lower(var.root_id)}-dev"
-        parent_management_group_id = "${var.root_id}-landing-zones"
+        display_name               = "Dev"
+        parent_management_group_id = "${var.root_id}-landingzones"
         subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
@@ -135,13 +142,11 @@ module "enterprise_scale" {
           access_control = {}
         }
       }
-      ##### SandBox #####
-      "${var.root_id}-sandboxes" = {
-        display_name               = "${lower(var.root_id)}-sandboxes"
-        parent_management_group_id = "${var.root_id}"
+      "${var.root_id}-homol" = {
+        display_name               = "Homol"
+        parent_management_group_id = "${var.root_id}-landingzones"
         subscription_ids           = []
         archetype_config = {
-          # archetype_id   = "default_empty"
           archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}

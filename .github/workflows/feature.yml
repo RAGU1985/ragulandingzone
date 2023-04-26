@@ -55,8 +55,8 @@ jobs:
         shell: bash
   
       - name: Initialize Terraform Backend
-        env:
-          ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
+#        env:
+#          ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
         run: |
           touch backend.tf
           cat <<EOF > backend.tf
