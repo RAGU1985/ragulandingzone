@@ -39,7 +39,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${data.azurerm_client_config.core.tenant_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_root"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -49,7 +49,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_decommissioned"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -59,7 +59,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_platform"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -69,7 +69,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_connectivity"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -80,7 +80,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_management"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -91,7 +91,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_identity"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -103,7 +103,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_landing_zones"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -113,7 +113,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "default_empty"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -123,7 +123,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "default_empty"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -133,7 +133,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "default_empty"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
@@ -145,7 +145,7 @@ module "enterprise_scale" {
         subscription_ids           = []
         archetype_config = {
           # archetype_id   = "default_empty"
-          archetype_id   = "es_sandboxes"
+          archetype_id   = {}
           parameters     = {}
           access_control = {}
         }
