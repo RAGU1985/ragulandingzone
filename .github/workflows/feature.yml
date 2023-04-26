@@ -105,7 +105,7 @@ jobs:
 
       - name: Run Terrascan
         run: |
-         terrascan scan -i terraform -d ./ #ts:minseverity=High
+         terrascan scan -i terraform -d ./ ts:minseverity=High
         env:
          TS_ALLOW_DOWNLOADS: "true"
   
