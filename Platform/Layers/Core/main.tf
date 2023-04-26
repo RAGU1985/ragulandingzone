@@ -36,7 +36,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${data.azurerm_client_config.core.tenant_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -46,7 +46,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -56,7 +56,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -66,7 +66,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -77,7 +77,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -88,7 +88,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-platform"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -100,7 +100,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -110,7 +110,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -120,7 +120,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -130,7 +130,7 @@ module "enterprise_scale" {
         parent_management_group_id = "${var.root_id}-landing-zones"
         subscription_ids           = []
         archetype_config = {
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
@@ -142,7 +142,7 @@ module "enterprise_scale" {
         subscription_ids           = []
         archetype_config = {
           # archetype_id   = "default_empty"
-          archetype_id   = "es_empty"
+          archetype_id   = "default_empty"
           parameters     = {}
           access_control = {}
         }
