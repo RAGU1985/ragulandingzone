@@ -135,7 +135,7 @@ module "enterprise_scale" {
       "${var.root_id}-dev" = {
         display_name               = "Dev"
         parent_management_group_id = "${var.root_id}-landingzones"
-        subscription_ids           = []
+        subscription_ids           = ["d7caf0f4-7c69-4c4a-af92-3b52493f74ca"]
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
