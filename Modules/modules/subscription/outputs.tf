@@ -18,6 +18,6 @@
 #   value = [for x in azurerm_subscription.this : x.id]
 # }
 
-output "subscription_id" {
-  value = { for x in azurerm_subscription.this : x.alias => x.subscription_id }
-}
+#output "subscription_id" {
+#  value = { for x in azurerm_subscription.this : x.alias => x.subscription_id }
+#}
