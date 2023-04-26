@@ -47,11 +47,11 @@ jobs:
             # Create RG
             az group create --name BDOTest1 --location brazilsouth
             # Create Storage and container
-            az storage account create --name vaaniravinderg --resource-group BDOTest1 --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
-            accountKey=$(az storage account keys list --account-name vaaniravinderg --resource-group BDOTest1 --output tsv --query "[0].value")
-            az storage container create --name containervaani --account-name vaaniravinderg --account-key $accountKey
+            az storage account create --name vaaniravinderg01010 --resource-group BDOTest1 --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
+            accountKey=$(az storage account keys list --account-name vaaniravinderg01010 --resource-group BDOTest1 --output tsv --query "[0].value")
+            az storage container create --name containervaani --account-name vaaniravinderg01010 --account-key $accountKey
             # Enable storage versioning
-            az storage account blob-service-properties update --account-name vaaniravinderg --resource-group BDOTest1 --enable-versioning true
+            az storage account blob-service-properties update --account-name vaaniravinderg01010 --resource-group BDOTest1 --enable-versioning true
             echo "::set-output name=accountKey::$accountKey"
           fi
         shell: bash
@@ -64,7 +64,7 @@ jobs:
           cat <<EOF > backend.tf
           terraform {
             backend "azurerm" {
-              storage_account_name = "vaaniravinderg"
+              storage_account_name = "vaaniravinderg01010"
               container_name       = "containervaani"
               key                  = "terraform.tfstate"
             }
