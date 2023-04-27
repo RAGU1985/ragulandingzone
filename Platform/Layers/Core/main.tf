@@ -31,7 +31,7 @@ module "enterprise_scale" {
       "${var.root_id}" = {
         display_name               = "${lower(var.root_name)}"
         parent_management_group_id = "${data.azurerm_client_config.core.tenant_id}"
-        subscription_ids           = ["d7caf0f4-7c69-4c4a-af92-3b52493f74ca"]
+        subscription_ids           = []
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
@@ -135,7 +135,7 @@ module "enterprise_scale" {
       "${var.root_id}-dev" = {
         display_name               = "Dev"
         parent_management_group_id = "${var.root_id}-landingzones"
-        subscription_ids           = []
+        subscription_ids           = ["d7caf0f4-7c69-4c4a-af92-3b52493f74ca"]
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
