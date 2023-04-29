@@ -21,7 +21,7 @@ variable "subscriptions" {
 
 variable "subscription_billing_scope" {
   type        = string
-  default     = "/providers/Microsoft.Billing/billingAccounts/xxxxxxxx/enrollmentAccounts/xxxxxxxx"
+  default     = "/providers/Microsoft.Billing/billingAccounts/2141d156-32a3-421f-b517-548bfbdf8ecf"
   description = <<DESCRIPTION
 The billing scope for the new subscription alias.
 
