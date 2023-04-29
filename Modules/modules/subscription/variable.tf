@@ -1,13 +1,3 @@
-variable "root_id" {
-  type    = string
-  default = "mg-itaudev"
-}
-
-variable "root_name" {
-  type    = string
-  default = "Itaudev"
-}
-
 ##### Subscription #######
 
 variable "subscriptions" {
@@ -21,7 +11,7 @@ variable "subscriptions" {
 
 variable "subscription_billing_scope" {
   type        = string
-  default     = "/providers/Microsoft.Billing/billingAccounts/xxxxxxxx/enrollmentAccounts/xxxxxxxx"
+  default     = "/providers/Microsoft.Billing/billingAccounts/xxxxxxxxxxxxxx/enrollmentAccounts/xxxxxxxxxxxxxx"
   description = <<DESCRIPTION
 The billing scope for the new subscription alias.
 

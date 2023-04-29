@@ -6,6 +6,13 @@
 data "azurerm_client_config" "core" {}
 
 
+##### Module for Subscriptions #########
+
+module "subscription" {
+  source = "../../../Modules/modules/subscription"
+  subscriptions = var.subscriptions
+}
+
 # Declare the Azure landing zones Terraform module
 # and provide a base configuration.
 
@@ -72,7 +79,7 @@ module "enterprise_scale" {
       "${var.root_id}-sandbox" = {
         display_name               = "Sandbox"
         parent_management_group_id = "${var.root_id}"
-        subscription_ids           = []
+        subscription_ids           = ["${module.subscription.subscription_id["sub-con-ext-01"]}","${module.subscription.subscription_id["sub-con-int-01"]}"]
         archetype_config = {
           archetype_id   = "default_empty"
           parameters     = {}
