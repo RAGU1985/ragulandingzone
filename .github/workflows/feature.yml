@@ -68,7 +68,7 @@ jobs:
           cat <<EOF > backend.tf
           terraform {
             backend "azurerm" {
-              storage_account_name = ${{ steps.generate-name.outputs.name }}
+              storage_account_name = "${{ steps.generate-name.outputs.name }}"
               container_name       = "container01"
               key                  = "terraform.tfstate"
             }
