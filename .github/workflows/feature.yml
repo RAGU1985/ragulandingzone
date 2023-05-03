@@ -52,7 +52,7 @@ jobs:
             az group create --name "vaanitest" --location brazilsouth
             # Create Storage and container
             az storage account create --name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest" --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
-            accountKey=$(az storage account keys list --account-name "${{ steps.generate-name.outputs.name }}" --resource-group "vaanitest"--output tsv --query "[0].value")
+            accountKey=$(az storage account keys list --account-name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest" --output tsv --query "[0].value")
             az storage container create --name container01 --account-name ${{ steps.generate-name.outputs.name }} --account-key $accountKey
             # Enable storage versioning
             az storage account blob-service-properties update --account-name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest"--enable-versioning true
