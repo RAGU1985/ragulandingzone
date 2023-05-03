@@ -48,10 +48,10 @@ jobs:
             az group create --name rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --location brazilsouth
             # Create Storage and container
             az storage account create --name tfstate$({{ github.repository }} | lower)${{ steps.extract-branch-name.outputs.branch-name }} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
-            accountKey=$(az storage account keys list --account-name tfstate$({{ github.repository }} | lower)${{ steps.extract-branch-name.outputs.branch-name }} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --output tsv --query "[0].value")
-            az storage container create --name container01 --account-name tfstate$({{ github.repository }} | lower)${{ steps.extract-branch-name.outputs.branch-name }} --account-key $accountKey
+            accountKey=$(az storage account keys list --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --output tsv --query "[0].value")
+            az storage container create --name container01 --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --account-key $accountKey
             # Enable storage versioning
-            az storage account blob-service-properties update --account-name tfstate$({{ github.repository }} | lower)${{ steps.extract-branch-name.outputs.branch-name }} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --enable-versioning true
+            az storage account blob-service-properties update --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --enable-versioning true
             echo "::set-output name=accountKey::$accountKey"
           fi
         shell: bash
@@ -64,7 +64,7 @@ jobs:
           cat <<EOF > backend.tf
           terraform {
             backend "azurerm" {
-              storage_account_name = tfstate$({{ github.repository }} | lower)${{ steps.extract-branch-name.outputs.branch-name }}
+              storage_account_name = tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}}
               container_name       = "container01"
               key                  = "terraform.tfstate"
             }
