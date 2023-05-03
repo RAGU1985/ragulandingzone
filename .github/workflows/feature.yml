@@ -35,9 +35,12 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check
   
-      - name: Extract branch name
-        id: extract-branch-name
-        run: echo "::set-output name=branch-name::$(echo '${{ github.ref_slug }}' | sed 's/refs\/heads\///g')"
+      - name: Generate storage account name
+        id: generate-name
+        run: |
+          branch_name=$(echo "${{ github.ref_slug }}" | sed -E 's#^refs/heads/##')
+          account_name=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "::set-output name=name::${account_name}-${branch_name}"
         
       - name: Check Terraform Backend Configuration and Create if Non-EXISTENT
         id: check_backend
@@ -45,13 +48,13 @@ jobs:
           tfstate_file=".terraform/terraform.tfstate"
           if [ ! -f "$tfstate_file" ]; then
             # Create RG
-            az group create --name "rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }}" --location brazilsouth
+            az group create --name "vaanitest" --location brazilsouth
             # Create Storage and container
-            az storage account create --name "tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}}" --resource-group "rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }}" --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
-            accountKey=$(az storage account keys list --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --output tsv --query "[0].value")
-            az storage container create --name container01 --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --account-key $accountKey
+            az storage account create --name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest" --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
+            accountKey=$(az storage account keys list --account-name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest"--output tsv --query "[0].value")
+            az storage container create --name container01 --account-name ${{ steps.generate-name.outputs.name }} --account-key $accountKey
             # Enable storage versioning
-            az storage account blob-service-properties update --account-name tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}} --resource-group rg-$({{ github.repository }} | lower)-${{ steps.extract-branch-name.outputs.branch-name }} --enable-versioning true
+            az storage account blob-service-properties update --account-name ${{ steps.generate-name.outputs.name }} --resource-group "vaanitest"--enable-versioning true
             echo "::set-output name=accountKey::$accountKey"
           fi
         shell: bash
@@ -64,7 +67,7 @@ jobs:
           cat <<EOF > backend.tf
           terraform {
             backend "azurerm" {
-              storage_account_name = tfstate-$({{ steps.extract-branch-name.outputs.branch-name | lower)}}
+              storage_account_name = ${{ steps.generate-name.outputs.name }}
               container_name       = "container01"
               key                  = "terraform.tfstate"
             }
