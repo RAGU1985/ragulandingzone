@@ -38,7 +38,7 @@ jobs:
       - name: Generate storage account name
         id: generate-name
         run: |
-          branch_name=$(basename "${{ github.ref_slug }}")
+          branch_name=$(echo "${{ github.ref }}" | sed 's#refs/heads/##')
           account_name=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | sed 's#/#-#g' | cut -c 1-10)
           echo "${branch_name}"
           echo "::set-output name=name::${account_name}-${branch_name}"
