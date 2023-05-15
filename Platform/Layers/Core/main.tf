@@ -9,6 +9,11 @@ data "azurerm_client_config" "core" {}
 # Declare the Azure landing zones Terraform module
 # and provide a base configuration.
 
+module "resourcegroup" {
+  source          = "../../modules/resourcegroup"
+  resource_groups = var.resource_groups
+}
+
 module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "3.0.0"
