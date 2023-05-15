@@ -3,8 +3,9 @@ resource_groups = {
     name     = "rg-we-idn-dc-01"
     location = "westeurope"
     tags = {
-      env          = "prod"
+      env          = "dev"
       automated_by = "ms"
+      newtag = "ravi"
     }
   }
   resource_group_2 = {
