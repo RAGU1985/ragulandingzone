@@ -6,7 +6,7 @@ resource_groups = {
       env          = "dev"
       automated_by = "ms"
       newtag = "ravi"
-      blank  = ""
+      blank  = "yolo"
     }
   }
   resource_group_2 = {
