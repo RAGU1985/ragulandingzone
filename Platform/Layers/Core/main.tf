@@ -10,13 +10,13 @@ data "azurerm_client_config" "core" {}
 # and provide a base configuration.
 
 module "resourcegroup" {
-  source          = "../../modules/resourcegroup"
+  source          = "../../../Modules/resourcegroup"
   resource_groups = var.resource_groups
 }
 
 module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "3.0.0"
+  version = "3.3.0"
 
   providers = {
     azurerm              = azurerm
