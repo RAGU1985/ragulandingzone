@@ -14,7 +14,7 @@ resource "azurerm_resource_group_tag" "this" {
   tags = merge(
     each.value.tags,
     {
-      date = formatdate("DD-MM-YYYY", timestamp())
+      date = formatdate("HH:mm:ss", timestamp())
     }
   )
 }
