@@ -7,6 +7,7 @@ resource_groups = {
       automated_by = "ms"
       newtag = "ravi"
       blank  = "yolo"
+      date  = var.tag_date
     }
   }
   resource_group_2 = {
