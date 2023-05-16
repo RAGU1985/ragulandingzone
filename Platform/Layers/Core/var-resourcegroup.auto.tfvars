@@ -7,7 +7,7 @@ resource_groups = {
       automated_by = "ms"
       newtag = "ravi"
       blank  = "yolo"
-      date  = "var.tag_date"
+      date  = formatdate("DD-MM-YYYY", timestamp())
     }
   }
   resource_group_2 = {
