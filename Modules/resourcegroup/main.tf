@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_resource_group_tag" "this" {
-  for_each      = azurerm_resource_group.this
+  for_each      = azurerm_resource_group_tag.this
   resource_group_name = each.value.name
 
   tags = merge(
