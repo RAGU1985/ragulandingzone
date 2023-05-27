@@ -51,6 +51,7 @@ jobs:
               https://api.github.com/repos/${{ github.repository }} | jq '.id')
   
             # Create tf backend if not exists
+            chmod +x create-tf-backend-azure.sh
             ./create-tf-backend-azure.sh
           popd
         working-directory: ${{ github.workspace }}/infra  
