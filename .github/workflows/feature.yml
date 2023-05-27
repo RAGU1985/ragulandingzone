@@ -44,7 +44,7 @@ jobs:
         run: |
           pushd ../scripts
             # Get Repository ID
-            export REPO_ID=$(curl -s -H "Authorization:token ${{ secrets.GITHUB_TOKEN }}" \
+            export REPO_ID=$(curl -s -H "Authorization:token ${{ secrets.GIT_TOKEN }}" \
               https://api.github.com/repos/${{ github.repository }} | jq '.id')
   
             # Create tf backend if not exists
