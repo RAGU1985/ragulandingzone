@@ -62,6 +62,7 @@ jobs:
            --terragrunt-working-dir $PWD/env/${{ inputs.environment }}/ \
            --terragrunt-include-external-dependencies \
            --terragrunt-non-interactive
+        working-directory: ${{ github.workspace }}/infra  
 
 
   
