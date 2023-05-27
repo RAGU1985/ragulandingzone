@@ -33,7 +33,7 @@ jobs:
 
       - name: Setup Terragrunt
         run: |
-          sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/${{ needs.config-parse.outputs.infra-terragrunt-version }}/terragrunt_linux_amd64"
+          sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v0.34.1/terragrunt_linux_amd64"
           sudo chmod +x /bin/terragrunt
           terragrunt --version
           terraform --version
