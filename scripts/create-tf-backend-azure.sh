@@ -58,16 +58,14 @@ az storage account create \
   --sku $STORAGE_ACCOUNT_SKU \
   --kind StorageV2 \
   --encryption-services blob \
-  --allow-blob-public-access false \
-  --default-action Deny \
-  --bypass AzureServices \
-  --public-network-access Enabled
+  --https-only false \
+  --allow-blob-public-access true
 
 # Adjust Storage Account public network access
-az storage account network-rule add \
-    -g $RESOURCE_GROUP_NAME \
-    --account-name $STORAGE_ACCOUNT_NAME \
-    --ip-address $STORAGE_ACCOUNT_NETWORK_IPS
+#az storage account network-rule add \
+#    -g $RESOURCE_GROUP_NAME \
+#    --account-name $STORAGE_ACCOUNT_NAME \
+#    --ip-address $STORAGE_ACCOUNT_NETWORK_IPS
 
 # Get Storage Account key
 ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query [0].value -o tsv)
