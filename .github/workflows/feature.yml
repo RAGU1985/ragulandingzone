@@ -42,7 +42,7 @@ jobs:
         id: init-terraform-backend
         shell: bash
         run: |
-          pushd ../../scripts
+          pushd ../scripts
             # Get Repository ID
             export REPO_ID=$(curl -s -H "Authorization:token ${{ secrets.GIT_TOKEN }}" \
               https://api.github.com/repos/${{ github.repository }} | jq '.id')
