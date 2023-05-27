@@ -23,13 +23,20 @@ jobs:
 
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install the latest version of the Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: "1.3.1"
+
+      - name: Setup Terragrunt
+        run: |
+          sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/${{ needs.config-parse.outputs.infra-terragrunt-version }}/terragrunt_linux_amd64"
+          sudo chmod +x /bin/terragrunt
+          terragrunt --version
+          terraform --version
   
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
@@ -71,24 +78,36 @@ jobs:
           terraform init
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
 
-      - name: Terraform validate
-        run: terraform validate
+      - name: Terragrunt Validate
+        run: |
+          terragrunt run-all validate \
+           --terragrunt-working-dir $PWD/env/${{ inputs.environment }}/ \
+           --terragrunt-include-external-dependencies \
+           --terragrunt-non-interactive
+
+
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
-      - name: Terraform Plan
-        env:
-          ARM_ACCESS_KEY: ${{ steps.check_backend.outputs.accountKey }}
+      - name: Terragrunt Plan
         id: tf-plan
         run: |
           export exitcode=0
-          terraform plan -detailed-exitcode -no-color -lock=false -out tfplan || export exitcode=$?
+          terragrunt run-all plan \
+          --terragrunt-working-dir $PWD/env/${{ inputs.environment }} \
+          -detailed-exitcode \
+          -no-color \
+          -out tfplan || export exitcode=$?
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-         
+  
+          find ./env -type f
+          bk=$(find ./env -type f -name '*backend.tf')
+          cat $bk
+          
           if [ $exitcode -eq 1 ]; then
-            echo Terraform Plan Failed!
+            echo Terragrunt Plan Failed!
             exit 1
-          else
+          else 
             exit 0
           fi
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
@@ -102,11 +121,11 @@ jobs:
         working-directory: ${{ github.workspace }}/Platform/Layers/Core
 
 
-      - name: Install Terrascan
-        run: |
-          wget https://github.com/tenable/terrascan/releases/download/v1.18.1/terrascan_1.18.1_Linux_x86_64.tar.gz
-          tar xvzf terrascan_1.18.1_Linux_x86_64.tar.gz
-          sudo mv terrascan /usr/local/bin/
+      #- name: Install Terrascan
+      #  run: |
+      #    wget https://github.com/tenable/terrascan/releases/download/v1.18.1/terrascan_1.18.1_Linux_x86_64.tar.gz
+      #    tar xvzf terrascan_1.18.1_Linux_x86_64.tar.gz
+      #    sudo mv terrascan /usr/local/bin/
 
       #- name: Run Terrascan
       #  run: |
@@ -114,17 +133,17 @@ jobs:
       #  env:
       #   TS_ALLOW_DOWNLOADS: "true"
   
-      - name: Install Terraform Linter
-        run: |
-         curl -sL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-        shell: bash
-   
-         
-      - name: Run Terraform Linter
-        run: |
-         tflint
-        env:
-          TF_VERSION: "1.3.1"
+      #- name: Install Terraform Linter
+      #  run: |
+      #   curl -sL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      #  shell: bash
+   #
+      #   
+      #- name: Run Terraform Linter
+      #  run: |
+      #   tflint
+      #  env:
+      #    TF_VERSION: "1.3.1"
         
          
       # Save plan to artifacts  
