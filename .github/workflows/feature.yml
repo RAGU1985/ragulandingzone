@@ -10,6 +10,8 @@ env:
   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID_PAYG }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID_PAYG }}"
   ARM_USE_OIDC: true
+  ARM_SKIP_PROVIDER_REGISTRATION: true
+
 
 jobs:
   build-and-deploy:
@@ -49,7 +51,7 @@ jobs:
               https://api.github.com/repos/${{ github.repository }} | jq '.id')
   
             # Create tf backend if not exists
-            ./create-tf-backend.sh
+            ./create-tf-backend-azure.sh
           popd
         working-directory: ${{ github.workspace }}/infra  
 
