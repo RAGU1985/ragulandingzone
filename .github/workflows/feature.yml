@@ -38,45 +38,18 @@ jobs:
           terragrunt --version
           terraform --version
   
-      # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -check
-  
-        
-  
-      - name: Check Terraform Backend Configuration and Create if Non-EXISTENT
-        id: check_backend
-        run: |
-          tfstate_file=".terraform/terraform.tfstate"
-          if [ ! -f "$tfstate_file" ]; then
-            # Create RG
-            az group create --name BDOTest1 --location brazilsouth
-            # Create Storage and container
-            az storage account create --name vaaniravinderg01010 --resource-group BDOTest1 --location brazilsouth --sku Standard_LRS --kind StorageV2 --encryption-services blob
-            accountKey=$(az storage account keys list --account-name vaaniravinderg01010 --resource-group BDOTest1 --output tsv --query "[0].value")
-            az storage container create --name containervaani --account-name vaaniravinderg01010 --account-key $accountKey
-            # Enable storage versioning
-            az storage account blob-service-properties update --account-name vaaniravinderg01010 --resource-group BDOTest1 --enable-versioning true
-            echo "::set-output name=accountKey::$accountKey"
-          fi
+      - name: 'Init Terraform Backend'
+        id: init-terraform-backend
         shell: bash
-  
-      - name: Initialize Terraform Backend
-        env:
-          ARM_ACCESS_KEY: ${{ steps.check_backend.outputs.accountKey }}
         run: |
-          touch backend.tf
-          cat <<EOF > backend.tf
-          terraform {
-            backend "azurerm" {
-              storage_account_name = "vaaniravinderg01010"
-              container_name       = "containervaani"
-              key                  = "terraform.tfstate"
-            }
-          }
-          EOF
-          terraform init
-        working-directory: ${{ github.workspace }}/Platform/Layers/Core
+          pushd ../scripts
+            # Get Repository ID
+            export REPO_ID=$(curl -s -H "Authorization:token ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }} | jq '.id')
+  
+            # Create tf backend if not exists
+            ./create-tf-backend-azure.sh
+          popd
 
       - name: Terragrunt Validate
         run: |
