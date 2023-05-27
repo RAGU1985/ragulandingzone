@@ -62,7 +62,6 @@ jobs:
            --terragrunt-working-dir $PWD/env/${{ inputs.environment }}/ \
            --terragrunt-include-external-dependencies \
            --terragrunt-non-interactive
-        working-directory: ${{ github.workspace }}/infra  
 
 
   
@@ -91,13 +90,6 @@ jobs:
           fi
         working-directory: ${{ github.workspace }}/infra
 
-      - name: Terraform Apply
-        env:
-          ARM_ACCESS_KEY: ${{ steps.check_backend.outputs.accountKey }}
-        id: tf-apply
-        if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-        run: terraform apply -auto-approve tfplan
-        working-directory: ${{ github.workspace }}/infra
 
 
       #- name: Install Terrascan
