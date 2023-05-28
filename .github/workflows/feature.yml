@@ -74,28 +74,28 @@ jobs:
   
       # Generates an execution plan for Terraform
       # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
-#      - name: Terragrunt Plan
-#        id: tf-plan
-#        run: |
-#          export exitcode=0
-#          terragrunt run-all plan \
-#          --terragrunt-working-dir $PWD/env/${{ inputs.environment }} \
-#          -detailed-exitcode \
-#          -no-color \
-#          -out tfplan || export exitcode=$?
-#          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
-#  
-#          find ./env -type f
-#          bk=$(find ./env -type f -name '*backend.tf')
-#          cat $bk
-#          
-#          if [ $exitcode -eq 1 ]; then
-#            echo Terragrunt Plan Failed!
-#            exit 1
-#          else 
-#            exit 0
-#          fi
-#        working-directory: ${{ github.workspace }}/infra
+      - name: Terragrunt Plan
+        id: tf-plan
+        run: |
+          export exitcode=0
+          terragrunt run-all plan \
+          --terragrunt-working-dir $PWD/env/${{ inputs.environment }} \
+          -detailed-exitcode \
+          -no-color \
+          -out tfplan || export exitcode=$?
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+  
+          find ./env -type f
+          bk=$(find ./env -type f -name '*backend.tf')
+          cat $bk
+          
+          if [ $exitcode -eq 1 ]; then
+            echo Terragrunt Plan Failed!
+            exit 1
+          else 
+            exit 0
+          fi
+        working-directory: ${{ github.workspace }}/infra
 
 
 
