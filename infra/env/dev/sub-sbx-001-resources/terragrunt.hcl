@@ -17,7 +17,7 @@ locals {
 }
 
 terraform {
-  source = "${get_parent_terragrunt_dir()}/modules//azurerm-resource-group"
+  source = "${get_parent_terragrunt_dir()}/modules//azurerm_resource_group"
 }
 
 inputs = {
