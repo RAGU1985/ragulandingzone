@@ -62,13 +62,13 @@ jobs:
           popd
         working-directory: ${{ github.workspace }}/infra  
 
-#      - name: Terragrunt Validate
-#        run: |
-#          terragrunt run-all validate \
-#           --terragrunt-working-dir $PWD/env/dev/ \
-#           --terragrunt-include-external-dependencies \
-#           --terragrunt-non-interactive
-#        working-directory: ${{ github.workspace }}/infra  
+      - name: Terragrunt Validate
+        run: |
+          terragrunt run-all validate \
+           --terragrunt-working-dir $PWD/env/dev/ \
+           --terragrunt-include-external-dependencies \
+           --terragrunt-non-interactive
+        working-directory: ${{ github.workspace }}/infra  
 
 
   
