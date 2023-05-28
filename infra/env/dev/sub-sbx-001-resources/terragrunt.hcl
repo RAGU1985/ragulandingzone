@@ -2,31 +2,26 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "subscription" {
-  config_path = "../sub-sbx-001"
+locals {
+  # Load environment-level variables from files in parents folders
+  env_vars      = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  global_vars   = read_terragrunt_config(find_in_parent_folders("global.hcl"))
 
-  mock_outputs_allowed_terraform_commands = ["validate"]
-  mock_outputs = {
-    subscription_id = "my-subscription-id"
-  }
-}
+  # Extract common variables for reuse
+  location = local.env_vars.locals.location
+  env      = local.env_vars.locals.env_name
+  topmg    = local.env_vars.locals.topmg
+  rgtype   = local.env_vars.locals.rgtype
 
-# When using this terragrunt config, terragrunt will generate the file "provider.tf" with the aws provider block before
-# calling to terraform. Note that this will overwrite the `provider.tf` file if it already exists.
-generate "provider" {
-  path      = "flakes.txt"
-  if_exists = "overwrite"
-  contents = <<EOF
-provider "azurerm" {
-  subscription = "${dependency.subscription.outputs.subscription_id}"
-}
-EOF
+  resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
 }
 
 terraform {
-  source = "${get_parent_terragrunt_dir()}/modules//sandbox-subscription"
+  source = "${get_parent_terragrunt_dir()}/modules//azurerm-resource-group"
 }
 
 inputs = {
-    subscription_id = dependency.subscription.outputs.subscription_id
+    name        = local.resource_group_name
+    location    = local.location
+    environment = local.env
 }
