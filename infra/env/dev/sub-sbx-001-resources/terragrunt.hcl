@@ -11,15 +11,18 @@ locals {
   env      = local.env_vars.locals.env_name
   topmg    = local.env_vars.locals.topmg
   rgtype   = local.env_vars.locals.rgtype
-
+  provider_version = "3.52.0"
   resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
 }
 
 generate "provider" {
-  path      = "flakes.txt"
-  if_exists = "overwrite"
+  path      = "provider.tf"
+  if_exists = "overwrite_terragrunt"
   contents = <<EOF
 provider "azurerm" {
+  version - "=${local.provider_version}"
+  features {}
+  skip_provider_registration = true
   subscription = "d7caf0f4-7c69-4c4a-af92-3b52493f74ca"
 }
 EOF
