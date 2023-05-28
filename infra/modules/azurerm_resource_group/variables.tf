@@ -1,4 +1,14 @@
-variable "subscription_id" {
+variable "environment" {
   type        = string
-  description = "Subscription id to echo"
+  description = "environment type"
+}
+
+variable "location" {
+  type        = string
+  description = "azure region for the resource"
+}
+
+variable "environment" {
+  type        = string
+  description = "environment type"
 }
