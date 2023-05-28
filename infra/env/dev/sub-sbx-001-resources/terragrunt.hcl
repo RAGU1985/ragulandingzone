@@ -5,7 +5,6 @@ include {
 locals {
   # Load environment-level variables from files in parents folders
   env_vars      = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  global_vars   = read_terragrunt_config(find_in_parent_folders("global.hcl"))
 
   # Extract common variables for reuse
   location = local.env_vars.locals.location
