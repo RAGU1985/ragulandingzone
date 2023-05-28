@@ -20,7 +20,8 @@ generate "provider" {
   if_exists = "overwrite_terragrunt"
   contents = <<EOF
 provider "azurerm" {
-  version - "=${local.provider_version}"
+  version = "=${local.provider_version}"
+  features {}
   skip_provider_registration = true
   subscription = "d7caf0f4-7c69-4c4a-af92-3b52493f74ca"
 }
