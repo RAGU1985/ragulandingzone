@@ -11,7 +11,7 @@ resource "azurerm_virtual_network" "virtual_network" {
   name                = var.vnet1
   location            = var.location
   resource_group_name = var.name
-  address_space       = each.address_space
+  address_space       = var.address_space
   tags = {
     env          = "prod"
     automated_by = "ms"
