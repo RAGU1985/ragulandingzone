@@ -29,6 +29,6 @@ variable "subnet_prefixes" {
 }
 
 variable "subnet_names" {
-  type        = string
+  type        = list(string)
   description = "name of the resource"
 }
