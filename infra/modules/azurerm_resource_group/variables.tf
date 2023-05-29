@@ -1,23 +1,14 @@
-#variable "environment" {
-#  type        = string
-#  description = "environment type"
-#}
-#
-#variable "location" {
-#  type        = string
-#  description = "azure region for the resource"
-#}
-#
-#variable "name" {
-#  type        = string
-#  description = "name of the resource"
-#}
+variable "environment" {
+  type        = string
+  description = "environment type"
+}
 
-variable "resource_config" {
-  type = map(object({
-    // Define the configuration attributes for the resource
-    name     = string
-    location = string
-  }))
-  default     = {}
+variable "location" {
+  type        = string
+  description = "azure region for the resource"
+}
+
+variable "name" {
+  type        = string
+  description = "name of the resource"
 }
