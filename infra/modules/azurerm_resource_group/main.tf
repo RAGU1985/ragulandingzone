@@ -20,9 +20,9 @@ resource "azurerm_virtual_network" "virtual_network" {
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_names
+  name                 = var.subnet_names[count.index]
   virtual_network_name = var.vnet1
   resource_group_name  = var.name
-  address_prefixes     = var.subnet_prefixes
+  address_prefixes     = [var.subnet_prefixes[count.index]]
   depends_on = [ azurerm_virtual_network.virtual_network ]
 }
