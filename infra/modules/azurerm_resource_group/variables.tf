@@ -16,7 +16,7 @@
 variable "resource_config" {
   type = map(object({
     // Define the configuration attributes for the resource
-    name = string
+    name     = string
     location = string
     // ...
   }))
