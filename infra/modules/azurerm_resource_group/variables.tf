@@ -22,3 +22,13 @@ variable "address_space" {
   type        = list(string)
   description = "name of the resource"
 }
+
+variable "subnet_prefixes" {
+  type        = list(string)
+  description = "name of the resource"
+}
+
+variable "subnet_names" {
+  type        = string
+  description = "name of the resource"
+}

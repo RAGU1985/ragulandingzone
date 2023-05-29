@@ -17,3 +17,14 @@ resource "azurerm_virtual_network" "virtual_network" {
     automated_by = "ms"
   }
 }
+
+resource "azurerm_subnet" "subnet" {
+  name                = var.subnet_names
+  location            = var.location
+  resource_group_name = var.name
+  address_prefixes    = var.subnet_prefixes
+  tags = {
+    env          = "prod"
+    automated_by = "ms"
+  }
+}
