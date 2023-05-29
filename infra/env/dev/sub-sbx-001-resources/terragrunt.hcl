@@ -27,15 +27,6 @@ provider "azurerm" {
 EOF
 }
 
-terraform {
-  source = "${get_parent_terragrunt_dir()}/modules//azurerm_resource_group"
-}
-
-inputs = {
-    name        = local.resource_group_name
-    location    = local.location
-    environment = local.env
-}
 
 
 terraform {
