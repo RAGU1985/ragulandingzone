@@ -32,17 +32,6 @@ terraform {
 }
 
 inputs = {
-    name        = local.resource_group_name
-    location    = local.location
-    environment = local.env
-}
-
-
-terraform {
-  source = "${get_parent_terragrunt_dir()}/modules//azurerm_resource_group"
-}
-
-inputs = {
     name        = rg-resource-group-1
     location    = local.location
     environment = local.env
