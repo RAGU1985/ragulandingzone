@@ -18,6 +18,6 @@ variable "resource_config" {
     // Define the configuration attributes for the resource
     name     = string
     location = string
-  default     = {}
   }))
+  default     = {}
 }
