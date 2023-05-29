@@ -105,6 +105,7 @@ jobs:
           --terragrunt-working-dir $PWD/env/dev \
           -auto-approve \
           -no-color \
+          -input=false \
           -debug \
           tfplan
         working-directory: ${{ github.workspace }}/infra
