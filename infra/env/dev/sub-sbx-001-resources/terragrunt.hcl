@@ -34,15 +34,15 @@ terraform {
 
 inputs = {
   "resource.config" = {
-    "instance1" = {
-      "name"        = local.resource_group_name
-      "location"    = local.location
-      "environment" = local.env
+    instance1 = {
+      name        = local.resource_group_name
+      location    = local.location
+      environment = local.env
     }
-    "instance2" = {
-      "name"        = local.resource_group_name1
-      "location"    = local.location
-      "environment" = local.env
+    instance2 = {
+      name        = local.resource_group_name1
+      location    = local.location
+      environment = local.env
     }
   }
 }
