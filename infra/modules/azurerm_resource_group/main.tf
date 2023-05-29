@@ -1,8 +1,6 @@
 resource "azurerm_resource_group" "resource_group" {
-  name     = var.name
-  location = var.location
-  tags = {
-    env          = "prod"
-    automated_by = "ms"
-  }
+  for_each = var.resource_config
+  
+  name     = each.value.name
+  location = each.value.location
 }

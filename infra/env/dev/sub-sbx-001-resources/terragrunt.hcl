@@ -12,7 +12,8 @@ locals {
   topmg    = local.env_vars.locals.topmg
   rgtype   = local.env_vars.locals.rgtype
   provider_version = "3.52.0"
-  resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
+  resource_group_name   = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
+  resource_group_name1  = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-002"
 }
 
 generate "provider" {
@@ -32,7 +33,16 @@ terraform {
 }
 
 inputs = {
-    name        = local.resource_group_name
-    location    = local.location
-    environment = local.env
+  "resource.config" = {
+    instance1 = {
+      name        = local.resource_group_name
+      location    = local.location
+      environment = local.env
+    }
+    instance2 = {
+      name        = local.resource_group_name1
+      location    = local.location
+      environment = local.env
+    }
+  }
 }
