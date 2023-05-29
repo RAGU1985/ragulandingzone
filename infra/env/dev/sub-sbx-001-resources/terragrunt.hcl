@@ -47,3 +47,21 @@ inputs = {
     location    = local.location
     environment = local.env
 }
+
+inputs = {
+  for_each = {
+    instance1 = {
+      name        = rg-resource-group-1
+      location    = local.location
+      environment = local.env
+    }
+    instance2 = {
+      name        = rg-resource-group-2
+      location    = local.location
+      environment = local.env
+    }
+  }
+  module_instance[each.key].name         = each.value.name
+  module_instance[each.key].location     = each.value.location
+  module_instance[each.key].environment  = each.value.environment
+}
