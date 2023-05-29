@@ -33,7 +33,7 @@ terraform {
 }
 
 inputs = {
-  resource.config = {
+  "resource.config" = {
     "instance1" = {
       "name"        = local.resource_group_name
       "location"    = local.location
