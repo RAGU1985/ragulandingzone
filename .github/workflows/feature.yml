@@ -107,6 +107,18 @@ jobs:
           -no-color \
           -debug \
           tfplan
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+  
+          find ./env -type f
+          bk=$(find ./env -type f -name '*backend.tf')
+          cat $bk
+          
+          if [ $exitcode -eq 1 ]; then
+            echo Terragrunt Plan Failed!
+            exit 1
+          else 
+            exit 0
+          fi
         working-directory: ${{ github.workspace }}/infra
 
       #- name: Install Terrascan
