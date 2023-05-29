@@ -98,6 +98,15 @@ jobs:
         working-directory: ${{ github.workspace }}/infra
 
 
+      - name: Terragrunt Apply
+        id: tf-apply
+        run: |
+          terragrunt run-all apply \
+          --terragrunt-working-dir $PWD/env/${{ inputs.environment }} \
+          -auto-approve \
+          -no-color \
+          tfplan
+        working-directory: ${{ github.workspace }}/infra
 
       #- name: Install Terrascan
       #  run: |
