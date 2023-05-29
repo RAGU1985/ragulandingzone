@@ -12,7 +12,7 @@ locals {
   topmg    = local.env_vars.locals.topmg
   rgtype   = local.env_vars.locals.rgtype
   provider_version = "3.52.0"
-  resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
+  resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-002"
   vnet1 = "vnet-spoke-1"
   address_space = ["10.0.0.0/16"]
   subnet_prefixes = ["10.0.1.0/26", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
