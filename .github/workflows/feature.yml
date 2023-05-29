@@ -101,13 +101,12 @@ jobs:
       - name: Terragrunt Apply
         id: tf-apply
         run: |
-          terragrunt run-all apply \
-          --terragrunt-working-dir $PWD/env/dev \
-          -auto-approve \
-          -no-color \
-          -input=false \
-          -debug \
-          tfplan
+         echo "yes" | terragrunt run-all apply \
+         --terragrunt-working-dir $PWD/env/${{ inputs.environment }} \
+         -auto-approve \
+         -input=false \
+         -no-color \
+         tfplan
         working-directory: ${{ github.workspace }}/infra
 
       #- name: Install Terrascan
