@@ -12,3 +12,13 @@ variable "name" {
   type        = string
   description = "name of the resource"
 }
+
+variable "vnet1" {
+  type        = string
+  description = "name of the resource"
+}
+
+variable "address_space" {
+  type        = string
+  description = "name of the resource"
+}

@@ -13,6 +13,8 @@ locals {
   rgtype   = local.env_vars.locals.rgtype
   provider_version = "3.52.0"
   resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
+  vnet1 = vnet-spoke-1
+  address_space = ["10.0.0.0/16"]
 }
 
 generate "provider" {
@@ -32,7 +34,9 @@ terraform {
 }
 
 inputs = {
-    name        = local.resource_group_name
-    location    = local.location
-    environment = local.env
+    name          = local.resource_group_name
+    location      = local.location
+    environment   = local.env
+    vnet1         = local.vnet1
+    address_space = local.address_space
 }
