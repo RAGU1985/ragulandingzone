@@ -19,6 +19,6 @@ variable "vnet1" {
 }
 
 variable "address_space" {
-  type        = string
+  type        = list(string)
   description = "name of the resource"
 }
