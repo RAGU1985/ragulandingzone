@@ -13,7 +13,6 @@ locals {
   rgtype   = local.env_vars.locals.rgtype
   provider_version = "3.52.0"
   resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
-  resource_group_name1 = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-002"
 }
 
 generate "provider" {
@@ -28,27 +27,23 @@ provider "azurerm" {
 EOF
 }
 
+terraform {
+  source = "${get_parent_terragrunt_dir()}/modules//azurerm_resource_group"
+}
+
+inputs = {
+    name        = local.resource_group_name
+    location    = local.location
+    environment = local.env
+}
 
 
 terraform {
   source = "${get_parent_terragrunt_dir()}/modules//azurerm_resource_group"
 }
 
-
 inputs = {
-  for_each = {
-    instance1 = {
-      name        = local.resource_group_name
-      location    = local.location
-      environment = local.env
-    }
-    instance2 = {
-      name        = local.resource_group_name1
-      location    = local.location
-      environment = local.env
-    }
-  }
-  module_instance[each.key].name         = each.value.name
-  module_instance[each.key].location     = each.value.location
-  module_instance[each.key].environment  = each.value.environment
+    name        = rg-resource-group-1
+    location    = local.location
+    environment = local.env
 }
