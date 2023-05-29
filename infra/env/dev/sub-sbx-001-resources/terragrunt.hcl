@@ -13,7 +13,7 @@ locals {
   rgtype   = local.env_vars.locals.rgtype
   provider_version = "3.52.0"
   resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-001"
-  vnet1 = vnet-spoke-1
+  vnet1 = "vnet-spoke-1"
   address_space = ["10.0.0.0/16"]
 }
 
