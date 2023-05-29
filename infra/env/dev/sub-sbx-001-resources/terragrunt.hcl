@@ -32,7 +32,7 @@ terraform {
 }
 
 inputs = {
-    name        = rg-resource-group-1
+    name        = local.resource_group_name
     location    = local.location
     environment = local.env
 }
