@@ -26,6 +26,7 @@ resource "azurerm_subnet" "subnet" {
   for_each             = local.subnets
   name                 = each.key
   virtual_network_name = var.vnet1
-  address_prefixes     = each.value
+  resource_group_name  = var.name
+  address_prefixes     = [each.value]
   depends_on = [ azurerm_virtual_network.virtual_network ]
 }
