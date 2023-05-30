@@ -10,6 +10,7 @@ resource "azurerm_resource_group" "resource_group" {
 locals {
   vnets   = zipmap(var.vnet_names, var.address_space)
   subnets = zipmap(var.subnet_names, var.subnet_prefixes)
+  nsgs    = zipmap(var.subnet_names, var.nsg_names)
 }
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = local.vnets
@@ -62,4 +63,37 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
   lifecycle {
     ignore_changes = [remote_virtual_network_id]
   }
+}
+
+resource "azurerm_network_security_group" "network_security_group" {
+  for_each            = local.nsgs
+  name                = each.key
+  location            = var.net_location
+  resource_group_name = var.name
+
+  dynamic "security_rule" {
+    for_each = lookup(each.value, "security_rules", [])
+    content {
+      name                         = "BastionInbound"
+      description                  = "NSG"
+      protocol                     = "Tcp"
+      direction                    = "Inbound"
+      access                       = "Allow"
+      priority                     = 100
+      source_address_prefix        = "10.0.0.0/26"
+      source_address_prefixes      = null
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = null
+      destination_port_ranges      = ["3389", "22"]
+    }
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
+  for_each                  = local.subnets
+  subnet_id                 = lookup(data.azurerm_subnet.subnet, each.key)["id"]
+  network_security_group_id = azurerm_network_security_group.network_security_group[each.key]["id"]
 }
