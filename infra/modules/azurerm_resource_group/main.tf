@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "resource_group" {
 locals {
   vnets   = zipmap(var.vnet_names, var.address_space)
   subnets = zipmap(var.subnet_names, var.subnet_prefixes)
-  nsgs    = zipmap(var.subnet_names, var.nsg_names)
+  nsgs    = zipmap(var.nsg_names)
 }
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = local.vnets
