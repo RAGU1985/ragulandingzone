@@ -13,8 +13,8 @@ variable "name" {
   description = "name of the resource"
 }
 
-variable "vnet1" {
-  type        = string
+variable "vnet_names" {
+  type        = list(string)
   description = "name of the resource"
 }
 

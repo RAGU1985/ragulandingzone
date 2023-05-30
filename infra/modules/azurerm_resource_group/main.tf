@@ -7,11 +7,14 @@ resource "azurerm_resource_group" "resource_group" {
   }
 }
 
+locals {
+  vnets = zipmap(var.vnet_names, var.address_space)
+}
 resource "azurerm_virtual_network" "virtual_network" {
-  name                = var.vnet1
+  name                = each.key
   location            = var.location
   resource_group_name = var.name
-  address_space       = var.address_space
+  address_space       = [each.value]
   tags = {
     env          = "prod"
     automated_by = "ms"
