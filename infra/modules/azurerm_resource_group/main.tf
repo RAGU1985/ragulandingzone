@@ -66,27 +66,24 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
 
 resource "azurerm_network_security_group" "network_security_group" {
   name                = var.nsg_names
-  location            = var.net_location
+  location            = var.location
   resource_group_name = var.name
 
-  dynamic "security_rule" {
-    for_each = lookup(each.value, "security_rules", [])
-    content {
-      name                         = "BastionInbound"
-      description                  = "NSG"
-      protocol                     = "Tcp"
-      direction                    = "Inbound"
-      access                       = "Allow"
-      priority                     = 100
-      source_address_prefix        = "10.0.0.0/26"
-      source_address_prefixes      = null
-      destination_address_prefix   = "*"
-      destination_address_prefixes = null
-      source_port_range            = "*"
-      source_port_ranges           = null
-      destination_port_range       = null
-      destination_port_ranges      = ["3389", "22"]
-    }
+  security_rule {
+    name                         = "BastionInbound"
+    description                  = "NSG"
+    protocol                     = "Tcp"
+    direction                    = "Inbound"
+    access                       = "Allow"
+    priority                     = 100
+    source_address_prefix        = "10.0.0.0/26"
+    source_address_prefixes      = null
+    destination_address_prefix   = "*"
+    destination_address_prefixes = null
+    source_port_range            = "*"
+    source_port_ranges           = null
+    destination_port_range       = null
+    destination_port_ranges      = ["3389", "22"]
   }
 }
 
