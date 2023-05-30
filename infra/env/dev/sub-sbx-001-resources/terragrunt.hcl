@@ -17,7 +17,7 @@ locals {
   address_space = ["10.0.0.0/16", "10.2.0.0/16"]
   subnet_prefixes = ["10.0.1.0/26", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
   subnet_names = ["AzureBastionSubnet", "Management", "Tools", "Workloads"]
-  nsg_names    = "nsg-allowbastion-001"
+  nsg_name     = "nsg-allowbastion-001"
 }
 
 generate "provider" {
@@ -44,5 +44,5 @@ inputs = {
     address_space   = local.address_space
     subnet_prefixes = local.subnet_prefixes
     subnet_names    = local.subnet_names
-    nsg_names       = local.nsg_names
+    nsg_name        = local.nsg_name
 }

@@ -65,7 +65,7 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
 }
 
 resource "azurerm_network_security_group" "network_security_group" {
-  name                = var.nsg_names
+  name                = var.nsg_name
   location            = var.location
   resource_group_name = var.name
 

@@ -33,7 +33,7 @@ variable "subnet_names" {
   description = "name of the resource"
 }
 
-variable "nsg_names" {
+variable "nsg_name" {
   type        = string
   description = "name of the resource"
 }
