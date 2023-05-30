@@ -33,7 +33,7 @@ resource "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_virtual_network_peering" "source_to_destination" {
-  for_each                     = locals.vnets
+  for_each                     = local.vnets
   name                         = format("%s-to-%s", values(azurerm_virtual_network.virtual_network)[0].name, values(azurerm_virtual_network.virtual_network)[1].name)
   resource_group_name          = var.name
   remote_virtual_network_id    = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${var.name}/providers/Microsoft.Network/virtualNetworks/${values(azurerm_virtual_network.virtual_network)[0].name}"
