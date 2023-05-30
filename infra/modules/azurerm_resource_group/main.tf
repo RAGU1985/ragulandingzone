@@ -8,7 +8,8 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 locals {
-  vnets = zipmap(var.vnet_names, var.address_space)
+  vnets   = zipmap(var.vnet_names, var.address_space)
+  subnets = zipmap(var.subnet_names, var.subnet_prefixes)
 }
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = local.vnets
@@ -22,10 +23,6 @@ resource "azurerm_virtual_network" "virtual_network" {
   }
   depends_on = [azurerm_resource_group.resource_group]
 }
-
-locals {
-  subnets = zipmap(var.subnet_names, var.subnet_prefixes)
-}
 resource "azurerm_subnet" "subnet" {
   for_each             = local.subnets
   name                 = each.key
@@ -34,3 +31,5 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = [each.value]
   depends_on           = [azurerm_virtual_network.virtual_network]
 }
+
+
