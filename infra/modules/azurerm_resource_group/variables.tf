@@ -32,8 +32,3 @@ variable "subnet_names" {
   type        = list(string)
   description = "name of the resource"
 }
-
-variable "nsg_name" {
-  type        = string
-  description = "name of the resource"
-}
