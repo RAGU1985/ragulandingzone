@@ -32,4 +32,19 @@ resource "azurerm_subnet" "subnet" {
   depends_on           = [azurerm_virtual_network.virtual_network]
 }
 
+resource "azurerm_virtual_network_peering" "source_to_destination" {
+  for_each                     = locals.vnets
+  name                         = format("%s-to-%s", values(azurerm_virtual_network.virtual_network)[0].name, values(azurerm_virtual_network.virtual_network)[1].name)
+  resource_group_name          = var.name
+  remote_virtual_network_id    = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${var.name}/providers/Microsoft.Network/virtualNetworks/${values(azurerm_virtual_network.virtual_network)[0].name}"
+  virtual_network_name         = values(azurerm_virtual_network.virtual_network)[0].name
+  allow_forwarded_traffic      = true
+  allow_virtual_network_access = true
+  allow_gateway_transit        = false
+  use_remote_gateways          = false
+  depends_on                   = [azurerm_virtual_network.virtual_network]
 
+  lifecycle {
+    ignore_changes = [remote_virtual_network_id]
+  }
+}
