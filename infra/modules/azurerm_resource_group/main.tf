@@ -10,7 +10,6 @@ resource "azurerm_resource_group" "resource_group" {
 locals {
   vnets   = zipmap(var.vnet_names, var.address_space)
   subnets = zipmap(var.subnet_names, var.subnet_prefixes)
-  nsgs    = zipmap(var.nsg_names)
 }
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = local.vnets
@@ -66,8 +65,7 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
 }
 
 resource "azurerm_network_security_group" "network_security_group" {
-  for_each            = local.nsgs
-  name                = each.key
+  name                = var.nsg_names
   location            = var.net_location
   resource_group_name = var.name
 
@@ -95,5 +93,5 @@ resource "azurerm_network_security_group" "network_security_group" {
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   for_each                  = local.subnets
   subnet_id                 = lookup(data.azurerm_subnet.subnet, each.key)["id"]
-  network_security_group_id = azurerm_network_security_group.network_security_group[each.key]["id"]
+  network_security_group_id = azurerm_network_security_group.network_security_group.id
 }
