@@ -29,7 +29,7 @@ locals {
 resource "azurerm_subnet" "subnet" {
   for_each             = local.subnets
   name                 = each.key
-  virtual_network_name = "vnet-spoke-1"
+  virtual_network_name = values(azurerm_virtual_network.virtual_network)[0].name
   resource_group_name  = var.name
   address_prefixes     = [each.value]
   depends_on           = [azurerm_virtual_network.virtual_network]
