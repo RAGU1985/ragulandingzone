@@ -89,6 +89,6 @@ resource "azurerm_network_security_group" "network_security_group" {
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   for_each                  = local.subnets
-  subnet_id                 = lookup(data.azurerm_subnet.subnet, each.key)["id"]
+  subnet_id                 = azurerm_subnet.subnet[each.key]["id"]
   network_security_group_id = azurerm_network_security_group.network_security_group.id
 }
