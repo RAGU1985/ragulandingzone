@@ -90,7 +90,7 @@ locals {
   }
   network_security_groups = {
     nsg1 = {
-      name                      = "nsg-allowbastion-001"
+      name                      = "nsg-allowbastion-002"
       tags                      = null
       subnet_name               = "snet-aks-brazilsouth-001"
       subnet_key                = "subnet4"
