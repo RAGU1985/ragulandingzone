@@ -12,7 +12,7 @@ data "azurerm_subnet" "this" {
   for_each             = local.subnet_network_security_group_associations
   name                 = each.value.subnet_name
   virtual_network_name = var.virtual_network_name
-  resource_group_name = var.net_rg_name
+  resource_group_name  = var.net_rg_name
 }
 
 locals {
@@ -98,141 +98,32 @@ resource "azurerm_virtual_network_peering" "source_to_destination" {
 resource "azurerm_network_security_group" "nsg" {
   for_each            = var.network_security_groups
   name                = each.value["name"]
-  location            = var.net_location 
+  location            = var.net_location
   resource_group_name = var.net_rg_name
 
   dynamic "security_rule" {
     for_each = lookup(each.value, "security_rules", [])
     content {
-      name                                       = security_rule.value["name"]
-      description                                = lookup(security_rule.value, "description", null)
-      protocol                                   = coalesce(security_rule.value["protocol"], "Tcp")
-      direction                                  = security_rule.value["direction"]
-      access                                     = coalesce(security_rule.value["access"], "Allow")
-      priority                                   = security_rule.value["priority"]
-      source_address_prefix                      = lookup(security_rule.value, "source_address_prefix", null)
-      source_address_prefixes                    = lookup(security_rule.value, "source_address_prefixes", null)
-      destination_address_prefix                 = lookup(security_rule.value, "destination_address_prefix", null)
-      destination_address_prefixes                = lookup(security_rule.value, "destination_address_prefixes", null)  
-      source_port_range                          = lookup(security_rule.value, "source_port_range", null)
-      source_port_ranges                          = lookup(security_rule.value, "source_port_ranges", null)
-      destination_port_range                     = lookup(security_rule.value, "destination_port_range", null)
-      destination_port_ranges                     = lookup(security_rule.value, "destination_port_ranges", null)
+      name                         = security_rule.value["name"]
+      description                  = lookup(security_rule.value, "description", null)
+      protocol                     = coalesce(security_rule.value["protocol"], "Tcp")
+      direction                    = security_rule.value["direction"]
+      access                       = coalesce(security_rule.value["access"], "Allow")
+      priority                     = security_rule.value["priority"]
+      source_address_prefix        = lookup(security_rule.value, "source_address_prefix", null)
+      source_address_prefixes      = lookup(security_rule.value, "source_address_prefixes", null)
+      destination_address_prefix   = lookup(security_rule.value, "destination_address_prefix", null)
+      destination_address_prefixes = lookup(security_rule.value, "destination_address_prefixes", null)
+      source_port_range            = lookup(security_rule.value, "source_port_range", null)
+      source_port_ranges           = lookup(security_rule.value, "source_port_ranges", null)
+      destination_port_range       = lookup(security_rule.value, "destination_port_range", null)
+      destination_port_ranges      = lookup(security_rule.value, "destination_port_ranges", null)
     }
   }
-  depends_on = [azurerm_subnet.subnet]
 }
-
-#resource "azurerm_network_security_group" "network_security_group" {
-#  name                = "nsg-allowbastion-001"
-#  location            = var.net_location
-#  resource_group_name = var.net_rg_name
-#
-#  security_rule {
-#    name                       = "AllowHTTPsInbound"
-#    description                = "AllowHTTPsInbound"
-#    protocol                   = "Tcp"
-#    direction                  = "Inbound"
-#    access                     = "Allow"
-#    priority                   = 120
-#    source_address_prefix      = "Internet"
-#    destination_address_prefix = "*"
-#    source_port_range          = "*"
-#    destination_port_range     = "443"
-#  }
-#
-#  security_rule {
-#    name                       = "AllowGatewayManagerInbound"
-#    description                = "AllowGatewayManagerInbound"
-#    protocol                   = "Tcp"
-#    direction                  = "Inbound"
-#    access                     = "Allow"
-#    priority                   = 130
-#    source_address_prefix      = "GatewayManager"
-#    destination_address_prefix = "*"
-#    source_port_range          = "*"
-#    destination_port_range     = "443"
-#  }
-#
-#  security_rule {
-#    name                       = "AllowAzureLoadBalancerInbound"
-#    description                = "AllowAzureLoadBalancerInbound"
-#    protocol                   = "Tcp"
-#    direction                  = "Inbound"
-#    access                     = "Allow"
-#    priority                   = 140
-#    source_address_prefix      = "AzureLoadBalancer"
-#    destination_address_prefix = "*"
-#    source_port_range          = "*"
-#    destination_port_range     = "443"
-#  }
-#
-#  security_rule {
-#    name                       = "AllowBastionHostCommunication"
-#    description                = "AllowBastionHostCommunication"
-#    protocol                   = "Tcp"
-#    direction                  = "Inbound"
-#    access                     = "Allow"
-#    priority                   = 150
-#    source_address_prefix      = "VirtualNetwork"
-#    destination_address_prefix = "*"
-#    source_port_range          = "*"
-#    destination_port_ranges    = ["8080", "5701"]
-#  }
-#
-#  security_rule {
-#    name                       = "SSHRDP"
-#    description                = "ssh rdp"
-#    protocol                   = "Tcp"
-#    direction                  = "Outbound"
-#    access                     = "Allow"
-#    priority                   = 100
-#    source_address_prefix      = "*"
-#    destination_address_prefix = "VirtualNetwork"
-#    source_port_range          = "*"
-#    destination_port_ranges    = ["22", "3389"]
-#  }
-#  security_rule {
-#    name                       = "AllowAzureCloudOutbound"
-#    description                = "AllowAzureCloudOutbound"
-#    protocol                   = "Tcp"
-#    direction                  = "Outbound"
-#    access                     = "Allow"
-#    priority                   = 110
-#    source_address_prefix      = "*"
-#    destination_address_prefix = "AzureCloud"
-#    source_port_range          = "*"
-#    destination_port_range     = "443"
-#  }
-#  security_rule {
-#    name                       = "AllowBastionCommunication"
-#    description                = "AllowBastionCommunication"
-#    protocol                   = "*"
-#    direction                  = "Outbound"
-#    access                     = "Allow"
-#    priority                   = 120
-#    source_address_prefix      = "VirtualNetwork"
-#    destination_address_prefix = "VirtualNetwork"
-#    source_port_range          = "*"
-#    destination_port_ranges    = ["8080", "5701"]
-#  }
-#  security_rule {
-#    name                       = "AllowHttpOutbound"
-#    description                = "AllowHttpOutbound"
-#    protocol                   = "Tcp"
-#    direction                  = "Outbound"
-#    access                     = "Allow"
-#    priority                   = 130
-#    source_address_prefix      = "*"
-#    destination_address_prefix = "Internet"
-#    source_port_range          = "*"
-#    destination_port_range     = "80"
-#  }
-#
-#}
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   for_each                  = local.subnet_network_security_group_associations
-  subnet_id = lookup(data.azurerm_subnet.this, each.key)["id"]
+  subnet_id                 = lookup(data.azurerm_subnet.this, each.key)["id"]
   network_security_group_id = azurerm_network_security_group.nsg[each.key]["id"]
 }
