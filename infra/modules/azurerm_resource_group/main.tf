@@ -70,27 +70,29 @@ resource "azurerm_network_security_group" "network_security_group" {
   resource_group_name = var.net_rg_name
 
   security_rule {
-    name                       = "AllowRDP"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "3389"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    name                         = "Allow_RDP"
+    description                  = "Allow RDP traffic"
+    protocol                     = "Tcp"
+    direction                    = "Inbound"
+    access                       = "Allow"
+    priority                     = 100
+    source_address_prefix        = "*"
+    destination_address_prefix   = "*"
+    source_port_range            = "*"
+    destination_port_range       = "3389"
   }
 
   security_rule {
-    name                       = "AllowSSH"
-    priority                   = 101
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    name                         = "Allow_SSH"
+    description                  = "Allow SSH traffic"
+    protocol                     = "Tcp"
+    direction                    = "Inbound"
+    access                       = "Allow"
+    priority                     = 101
+    source_address_prefix        = "*"
+    destination_address_prefix   = "*"
+    source_port_range            = "*"
+    destination_port_range       = "22"
   }
 }
 
