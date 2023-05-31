@@ -1,12 +1,12 @@
 data "azurerm_virtual_network" "this" {
   for_each            = local.existing_vnets
   name                = each.value
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.net_rg_name
 }
 
 locals {
   location = var.net_location
-  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
+  tags     = merge(data.azurerm_resource_group.resource_group.tags, var.net_additional_tags)
 
   existing_vnets = {
     for subnet_k, subnet_v in var.subnets :
@@ -38,7 +38,7 @@ resource "azurerm_virtual_network" "virtual_network" {
 resource "azurerm_subnet" "subnet" {
   for_each                                      = var.subnets
   name                                          = each.value["name"]
-  resource_group_name                           = var.resource_group_name
+  resource_group_name                           = var.net_rg_name
   address_prefixes                              = each.value["address_prefixes"]
   service_endpoints                             = lookup(each.value, "service_endpoints", null)
   private_endpoint_network_policies_enabled     = coalesce(lookup(each.value, "pe_enable"), false)
