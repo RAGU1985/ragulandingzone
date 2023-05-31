@@ -232,8 +232,7 @@ resource "azurerm_network_security_group" "nsg" {
 #}
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
-  for_each                  = azurerm_subnet.subnet
-  subnet_id                 = each.value.id
-  network_security_group_id = azurerm_network_security_group.nsg.id
-  depends_on                = [azurerm_network_security_group.nsg]
+  for_each                  = local.subnet_network_security_group_associations
+  subnet_id = lookup(data.azurerm_subnet.this, each.key)["id"]
+  network_security_group_id = azurerm_network_security_group.nsg[each.key]["id"]
 }
