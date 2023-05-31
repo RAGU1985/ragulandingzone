@@ -77,6 +77,7 @@ resource "azurerm_subnet" "subnet" {
   depends_on = [azurerm_virtual_network.virtual_network]
 }
 
+
 resource "azurerm_virtual_network_peering" "source_to_destination" {
   for_each                     = var.vnet_peering
   name                         = format("%s-to-%s", each.value["source_vnet_name"], each.value["destination_vnet_name"])
