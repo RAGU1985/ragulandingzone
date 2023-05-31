@@ -9,10 +9,9 @@ locals {
   # Extract common variables for reuse
   location = local.env_vars.locals.location
   env      = local.env_vars.locals.env_name
-  topmg    = local.env_vars.locals.topmg
-  rgtype   = local.env_vars.locals.rgtype
+  mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
-  resource_group_name = "rg-${local.rgtype}-${local.topmg}-sbx-${local.location}-002"
+  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
   vnet_names = ["vnet-spoke-1", "vnet-spoke-2"]
   address_space = ["10.0.0.0/16", "10.2.0.0/16"]
   subnet_prefixes = ["10.0.1.0/26", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
@@ -36,7 +35,7 @@ terraform {
 }
 
 inputs = {
-    name            = local.resource_group_name
+    net_rg_name     = local.net_rg_name
     location        = local.location
     environment     = local.env
     vnet_names      = local.vnet_names
