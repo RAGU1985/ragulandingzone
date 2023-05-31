@@ -5,15 +5,21 @@ include {
 locals {
   # Load environment-level variables from files in parents folders
   env_vars      = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  # Extract common variables for reuse
+  location = local.env_vars.locals.location
+  env      = local.env_vars.locals.env_name
+  mghead   = local.env_vars.locals.mghead
+  provider_version = "3.52.0"
+  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
   virtual_networks = {
     virtualnetwork1 = {
-      name                 = "vnet-sandbox-brazilsouth-001"
+      name                 = "vnet-sandbox-brazilsouth-003"
       address_space        = ["10.0.0.0/16"]
       dns_servers          = null
       ddos_protection_plan = null
     }
     virtualnetwork2 = {
-      name                 = "vnet-sandbox-brazilsouth-002"
+      name                 = "vnet-sandbox-brazilsouth-004"
       address_space        = ["10.1.0.0/16"]
       dns_servers          = null
       ddos_protection_plan = null
@@ -60,10 +66,10 @@ locals {
 
   vnet_peering = {
     akstobastion = {
-      destination_vnet_name                 = local.virtual_networks.virtualnetwork1.name
+      destination_vnet_name                 = "vnet-sandbox-brazilsouth-003"
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-001/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-001"
-      source_vnet_name                      = local.virtual_networks.virtualnetwork2.name
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-003"
+      source_vnet_name                      = "vnet-sandbox-brazilsouth-004"
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
@@ -71,10 +77,10 @@ locals {
       use_remote_gateways                   = false
     }
     bastiontoaks = {
-      destination_vnet_name                 = local.virtual_networks.virtualnetwork2.name
+      destination_vnet_name                 = "vnet-sandbox-brazilsouth-004"
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-001/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-002"
-      source_vnet_name                      = local.virtual_networks.virtualnetwork1.name
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-004"
+      source_vnet_name                      = "vnet-sandbox-brazilsouth-003"
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
@@ -82,12 +88,6 @@ locals {
       use_remote_gateways                   = false
     }
   }
-  # Extract common variables for reuse
-  location = local.env_vars.locals.location
-  env      = local.env_vars.locals.env_name
-  mghead   = local.env_vars.locals.mghead
-  provider_version = "3.52.0"
-  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
 }
 
 generate "provider" {
