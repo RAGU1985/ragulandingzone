@@ -85,10 +85,6 @@ inputs = {
     net_rg_name     = local.net_rg_name
     location        = local.location
     environment     = local.env
-    vnet_names      = local.vnet_names
-    address_space   = local.address_space
-    subnet_prefixes = local.subnet_prefixes
-    subnet_names    = local.subnet_names
     virtual_networks= local.virtual_networks
     subnets         = local.subnets
 }
