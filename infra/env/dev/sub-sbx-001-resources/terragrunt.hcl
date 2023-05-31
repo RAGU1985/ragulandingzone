@@ -5,7 +5,20 @@ include {
 locals {
   # Load environment-level variables from files in parents folders
   env_vars      = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-
+  virtual_networks = {
+    virtualnetwork1 = {
+      name                 = "vnet-sandbox-brazilsouth-001"
+      address_space        = ["10.0.0.0/16"]
+      dns_servers          = null
+      ddos_protection_plan = null
+    }
+    virtualnetwork2 = {
+      name                 = "vnet-sandbox-brazilsouth-002"
+      address_space        = ["10.1.0.0/16"]
+      dns_servers          = null
+      ddos_protection_plan = null
+    }
+  }
   # Extract common variables for reuse
   location = local.env_vars.locals.location
   env      = local.env_vars.locals.env_name
@@ -42,4 +55,5 @@ inputs = {
     address_space   = local.address_space
     subnet_prefixes = local.subnet_prefixes
     subnet_names    = local.subnet_names
+    virtual_networks= local.virtual_networks
 }

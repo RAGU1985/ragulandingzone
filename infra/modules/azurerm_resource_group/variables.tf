@@ -32,3 +32,11 @@ variable "subnet_names" {
   type        = list(string)
   description = "name of the resource"
 }
+
+variable "virtual_networks" {
+  type        = map(object({
+    name          = string
+    address_space = list(string)
+  }))
+  description = "name of the resource"
+}
