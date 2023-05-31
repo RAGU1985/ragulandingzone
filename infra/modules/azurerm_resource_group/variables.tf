@@ -8,7 +8,7 @@ variable "location" {
   description = "azure region for the resource"
 }
 
-variable "name" {
+variable "net_rg_name" {
   type        = string
   description = "name of the resource"
 }
