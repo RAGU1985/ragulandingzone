@@ -80,6 +80,7 @@ resource "azurerm_virtual_network_peering" "source_to_destination" {
   lifecycle {
     ignore_changes = [remote_virtual_network_id]
   }
+  depends_on = [azurerm_virtual_network.virtual_network]
 }
 
 resource "azurerm_network_security_group" "network_security_group" {
