@@ -13,13 +13,13 @@ locals {
   net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
   virtual_networks = {
     virtualnetwork1 = {
-      name                 = "vnet-sandbox-brazilsouth-003"
+      name                 = "vnet-sandbox-brazilsouth-001"
       address_space        = ["10.0.0.0/16"]
       dns_servers          = null
       ddos_protection_plan = null
     }
     virtualnetwork2 = {
-      name                 = "vnet-sandbox-brazilsouth-004"
+      name                 = "vnet-sandbox-brazilsouth-002"
       address_space        = ["10.1.0.0/16"]
       dns_servers          = null
       ddos_protection_plan = null
@@ -66,10 +66,10 @@ locals {
 
   vnet_peering = {
     akstobastion = {
-      destination_vnet_name                 = "vnet-sandbox-brazilsouth-003"
+      destination_vnet_name                 = local.virtual_networks.virtualnetwork1.name
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
       remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-003"
-      source_vnet_name                      = "vnet-sandbox-brazilsouth-004"
+      source_vnet_name                      = local.virtual_networks.virtualnetwork2.name
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
@@ -77,10 +77,10 @@ locals {
       use_remote_gateways                   = false
     }
     bastiontoaks = {
-      destination_vnet_name                 = "vnet-sandbox-brazilsouth-004"
+      destination_vnet_name                 = local.virtual_networks.virtualnetwork2.name
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
       remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-004"
-      source_vnet_name                      = "vnet-sandbox-brazilsouth-003"
+      source_vnet_name                      = local.virtual_networks.virtualnetwork1.name
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
