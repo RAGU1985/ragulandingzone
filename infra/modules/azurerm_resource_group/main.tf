@@ -70,20 +70,27 @@ resource "azurerm_network_security_group" "network_security_group" {
   resource_group_name = var.net_rg_name
 
   security_rule {
-    name                         = "BastionInbound"
-    description                  = "NSG"
-    protocol                     = "Tcp"
+    name                         = "AllowRDP"
+    priority                     = 100
     direction                    = "Inbound"
     access                       = "Allow"
-    priority                     = 100
-    source_address_prefix        = "10.0.0.0/26"
-    source_address_prefixes      = null
-    destination_address_prefix   = "*"
-    destination_address_prefixes = null
+    protocol                     = "Tcp"
     source_port_range            = "*"
-    source_port_ranges           = null
-    destination_port_range       = null
-    destination_port_ranges      = ["3389", "22"]
+    destination_port_range       = "3389"
+    source_address_prefix        = "*"
+    destination_address_prefix   = "*"
+  }
+
+  security_rule {
+    name                         = "AllowSSH"
+    priority                     = 101
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "22"
+    source_address_prefix        = "*"
+    destination_address_prefix   = "*"
   }
 }
 
