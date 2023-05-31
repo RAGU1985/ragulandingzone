@@ -70,27 +70,27 @@ resource "azurerm_network_security_group" "network_security_group" {
   resource_group_name = var.net_rg_name
 
   security_rule {
-    name                         = "AllowRDP"
-    priority                     = 100
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "3389"
-    source_address_prefix        = "*"
-    destination_address_prefix   = "*"
+    name                       = "AllowRDP"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
   security_rule {
-    name                         = "AllowSSH"
-    priority                     = 101
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "22"
-    source_address_prefix        = "*"
-    destination_address_prefix   = "*"
+    name                       = "AllowSSH"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 }
 
@@ -98,5 +98,5 @@ resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   for_each                  = azurerm_subnet.subnet
   subnet_id                 = each.value.id
   network_security_group_id = azurerm_network_security_group.network_security_group.id
-  depends_on = [azurerm_network_security_group.network_security_group]
+  depends_on                = [azurerm_network_security_group.network_security_group]
 }
