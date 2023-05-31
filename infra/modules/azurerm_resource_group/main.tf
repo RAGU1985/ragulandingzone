@@ -67,38 +67,6 @@ resource "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_virtual_network_peering" "source_to_destination" {
-  name                         = format("%s-to-%s", values(azurerm_virtual_network.virtual_network)[0].name, values(azurerm_virtual_network.virtual_network)[1].name)
-  resource_group_name          = var.net_rg_name
-  remote_virtual_network_id    = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${var.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${values(azurerm_virtual_network.virtual_network)[1].name}"
-  virtual_network_name         = values(azurerm_virtual_network.virtual_network)[0].name
-  allow_forwarded_traffic      = true
-  allow_virtual_network_access = true
-  allow_gateway_transit        = false
-  use_remote_gateways          = false
-  depends_on                   = [azurerm_virtual_network.virtual_network]
-
-  lifecycle {
-    ignore_changes = [remote_virtual_network_id]
-  }
-}
-
-resource "azurerm_virtual_network_peering" "destination_to_source" {
-  name                         = format("%s-to-%s", values(azurerm_virtual_network.virtual_network)[1].name, values(azurerm_virtual_network.virtual_network)[0].name)
-  resource_group_name          = var.net_rg_name
-  remote_virtual_network_id    = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${var.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${values(azurerm_virtual_network.virtual_network)[0].name}"
-  virtual_network_name         = values(azurerm_virtual_network.virtual_network)[1].name
-  allow_forwarded_traffic      = true
-  allow_virtual_network_access = true
-  allow_gateway_transit        = false
-  use_remote_gateways          = false
-  depends_on                   = [azurerm_virtual_network.virtual_network]
-
-  lifecycle {
-    ignore_changes = [remote_virtual_network_id]
-  }
-}
-
-resource "azurerm_virtual_network_peering" "source_to_destination" {
   for_each                     = var.vnet_peering
   name                         = format("%s-to-%s", each.value["source_vnet_name"], each.value["destination_vnet_name"])
   resource_group_name          = each.value["source_vnet_rg"]
