@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 locals {
-  vnet   = zipmap(var.vnet_names, var.address_space)
+  vnet    = zipmap(var.vnet_names, var.address_space)
   subnets = zipmap(var.subnet_names, var.subnet_prefixes)
 }
 resource "azurerm_virtual_network" "virtual_network" {
@@ -24,12 +24,30 @@ resource "azurerm_virtual_network" "virtual_network" {
   depends_on = [azurerm_resource_group.resource_group]
 }
 resource "azurerm_subnet" "subnet" {
-  for_each             = local.subnets
-  name                 = each.key
-  virtual_network_name = values(azurerm_virtual_network.virtual_network)[0].name
-  resource_group_name  = var.net_rg_name
-  address_prefixes     = [each.value]
-  depends_on           = [azurerm_virtual_network.virtual_network]
+  for_each                                      = var.subnets
+  name                                          = each.value["name"]
+  resource_group_name                           = var.resource_group_name
+  address_prefixes                              = each.value["address_prefixes"]
+  service_endpoints                             = lookup(each.value, "service_endpoints", null)
+  private_endpoint_network_policies_enabled     = coalesce(lookup(each.value, "pe_enable"), false)
+  private_link_service_network_policies_enabled = coalesce(lookup(each.value, "pe_enable"), false)
+  virtual_network_name                          = each.value.vnet_key != null ? lookup(var.virtual_networks, each.value["vnet_key"])["name"] : data.azurerm_virtual_network.this[each.key].name
+
+  dynamic "delegation" {
+    for_each = coalesce(lookup(each.value, "delegation"), [])
+    content {
+      name = lookup(delegation.value, "name", null)
+      dynamic "service_delegation" {
+        for_each = coalesce(lookup(delegation.value, "service_delegation"), [])
+        content {
+          name    = lookup(service_delegation.value, "name", null)
+          actions = lookup(service_delegation.value, "actions", null)
+        }
+      }
+    }
+  }
+
+  depends_on = [azurerm_virtual_network.virtual_network]
 }
 
 resource "azurerm_virtual_network_peering" "source_to_destination" {

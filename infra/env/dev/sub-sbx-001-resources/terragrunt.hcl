@@ -19,16 +19,50 @@ locals {
       ddos_protection_plan = null
     }
   }
+  subnets = {
+    subnet1 = {
+      vnet_key          = "virtualnetwork1"
+      vnet_name         = null #jstartvmssfirst
+      name              = "snet-firewall-brazilsouth-001"
+      address_prefixes  = ["10.0.0.0/26"]
+      service_endpoints = []
+      pe_enable         = false
+      delegation        = []
+    },
+    subnet2 = {
+      vnet_key          = "virtualnetwork1"
+      vnet_name         = null #jstartvmssfirst
+      name              = "snet-bastion-brazilsouth-001"
+      address_prefixes  = ["10.0.0.64/26"]
+      service_endpoints = []
+      pe_enable         = false
+      delegation        = []
+    },
+    subnet3 = {
+      vnet_key          = "virtualnetwork1"
+      vnet_name         = null #jstartvmssfirst
+      name              = "snet-mgmt-brazilsouth-001"
+      address_prefixes  = ["10.0.0.128/26"]
+      service_endpoints = []
+      pe_enable         = false
+      delegation        = []
+    },
+    subnet4 = {
+      vnet_key          = "virtualnetwork2"
+      vnet_name         = null #jstartvmssfirst
+      name              = "snet-aks-brazilsouth-001"
+      address_prefixes  = ["10.1.0.0/24"]
+      service_endpoints = []
+      pe_enable         = false
+      delegation        = []
+    },
+  }
   # Extract common variables for reuse
   location = local.env_vars.locals.location
   env      = local.env_vars.locals.env_name
   mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
   net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
-  vnet_names = ["vnet-spoke-1", "vnet-spoke-2"]
-  address_space = ["10.0.0.0/16", "10.2.0.0/16"]
-  subnet_prefixes = ["10.0.1.0/26", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
-  subnet_names = ["AzureBastionSubnet", "Management", "Tools", "Workloads"]
 }
 
 generate "provider" {
@@ -56,4 +90,5 @@ inputs = {
     subnet_prefixes = local.subnet_prefixes
     subnet_names    = local.subnet_names
     virtual_networks= local.virtual_networks
+    subnets         = local.subnets
 }
