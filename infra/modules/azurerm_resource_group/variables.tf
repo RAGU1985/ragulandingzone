@@ -3,7 +3,7 @@ variable "environment" {
   description = "environment type"
 }
 
-variable "location" {
+variable "net_location" {
   type        = string
   description = "azure region for the resource"
 }

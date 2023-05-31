@@ -1,3 +1,19 @@
+data "azurerm_virtual_network" "this" {
+  for_each            = local.existing_vnets
+  name                = each.value
+  resource_group_name = var.resource_group_name
+}
+
+locals {
+  location = var.net_location
+  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
+
+  existing_vnets = {
+    for subnet_k, subnet_v in var.subnets :
+    subnet_k => subnet_v.vnet_name if(subnet_v.vnet_key == null && subnet_v.vnet_name != null)
+  }
+}
+
 resource "azurerm_resource_group" "resource_group" {
   name     = var.net_rg_name
   location = var.location
