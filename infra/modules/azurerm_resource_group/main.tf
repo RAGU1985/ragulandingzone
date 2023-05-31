@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "this" {
-  name  = var.net_rg_name
+  name = var.net_rg_name
 }
 
 data "azurerm_virtual_network" "this" {
@@ -92,6 +92,22 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
   allow_gateway_transit        = false
   use_remote_gateways          = false
   depends_on                   = [azurerm_virtual_network.virtual_network]
+
+  lifecycle {
+    ignore_changes = [remote_virtual_network_id]
+  }
+}
+
+resource "azurerm_virtual_network_peering" "source_to_destination" {
+  for_each                     = var.vnet_peering
+  name                         = format("%s-to-%s", each.value["source_vnet_name"], each.value["destination_vnet_name"])
+  resource_group_name          = each.value["source_vnet_rg"]
+  remote_virtual_network_id    = each.value["remote_destination_virtual_network_id"]
+  virtual_network_name         = each.value["source_vnet_name"]
+  allow_forwarded_traffic      = coalesce(lookup(each.value, "allow_forwarded_traffic"), true)
+  allow_virtual_network_access = coalesce(lookup(each.value, "allow_virtual_network_access"), true)
+  allow_gateway_transit        = coalesce(lookup(each.value, "allow_gateway_transit"), false)
+  use_remote_gateways          = coalesce(lookup(each.value, "use_remote_gateways"), false)
 
   lifecycle {
     ignore_changes = [remote_virtual_network_id]
