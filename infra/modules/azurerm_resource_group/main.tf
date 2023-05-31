@@ -20,7 +20,7 @@ locals {
 
 resource "azurerm_resource_group" "resource_group" {
   name     = var.net_rg_name
-  location = var.location
+  location = var.net_location
   tags = {
     env          = "prod"
     automated_by = "ms"
@@ -30,7 +30,7 @@ resource "azurerm_resource_group" "resource_group" {
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = var.virtual_networks
   name                = each.value["name"]
-  location            = var.location
+  location            = var.net_location
   resource_group_name = var.net_rg_name
   address_space       = each.value["address_space"]
   tags = {
@@ -100,7 +100,7 @@ resource "azurerm_virtual_network_peering" "destination_to_source" {
 
 resource "azurerm_network_security_group" "network_security_group" {
   name                = "nsg-allowbastion-001"
-  location            = var.location
+  location            = var.net_location
   resource_group_name = var.net_rg_name
 
   security_rule {
