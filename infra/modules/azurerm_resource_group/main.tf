@@ -120,6 +120,7 @@ resource "azurerm_network_security_group" "nsg" {
       destination_port_ranges      = lookup(security_rule.value, "destination_port_ranges", null)
     }
   }
+  depends_on = [azurerm_subnet.subnet]
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
