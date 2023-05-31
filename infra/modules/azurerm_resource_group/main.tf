@@ -1,3 +1,7 @@
+data "azurerm_resource_group" "this" {
+  name  = var.net_rg_name
+}
+
 data "azurerm_virtual_network" "this" {
   for_each            = local.existing_vnets
   name                = each.value
@@ -6,7 +10,7 @@ data "azurerm_virtual_network" "this" {
 
 locals {
   location = var.net_location
-  tags     = merge(data.azurerm_resource_group.resource_group.tags, var.net_additional_tags)
+  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
 
   existing_vnets = {
     for subnet_k, subnet_v in var.subnets :

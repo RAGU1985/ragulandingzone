@@ -82,9 +82,10 @@ terraform {
 }
 
 inputs = {
-    net_rg_name     = local.net_rg_name
-    net_location    = local.location
-    environment     = local.env
-    virtual_networks= local.virtual_networks
-    subnets         = local.subnets
+    net_rg_name         = local.net_rg_name
+    net_location        = local.location
+    environment         = local.env
+    virtual_networks    = local.virtual_networks
+    subnets             = local.subnets
+    net_additional_tags = null
 }

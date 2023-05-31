@@ -13,6 +13,12 @@ variable "net_rg_name" {
   description = "name of the resource"
 }
 
+variable "net_additional_tags" {
+  type        = map(string)
+  description = "Additional Network resources tags, in addition to the resource group tags."
+  default     = {}
+}
+
 variable "virtual_networks" {
   type = map(object({
     name          = string
