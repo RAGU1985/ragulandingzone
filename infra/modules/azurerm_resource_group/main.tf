@@ -7,10 +7,6 @@ resource "azurerm_resource_group" "resource_group" {
   }
 }
 
-locals {
-  vnet    = zipmap(var.vnet_names, var.address_space)
-  subnets = zipmap(var.subnet_names, var.subnet_prefixes)
-}
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = var.virtual_networks
   name                = each.value["name"]
