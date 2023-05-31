@@ -88,6 +88,33 @@ locals {
       use_remote_gateways                   = false
     }
   }
+  network_security_groups = {
+    nsg1 = {
+      name                      = "nsg-allowbastion-001"
+      tags                      = null
+      subnet_name               = "snet-aks-brazilsouth-001"
+      subnet_key                = "subnet4"
+      networking_resource_group = "rg-net-itaudev-sbx-brazilsouth-002"
+      security_rules = [
+        {
+          name                         = "BastionInbound"
+          description                  = "NSG"
+          priority                     = 100
+          direction                    = "Inbound"
+          access                       = "Allow"
+          protocol                     = "Tcp"
+          source_port_range            = "*"
+          source_address_prefix        = "10.0.0.0/26"
+          destination_port_ranges      = ["3389", "22"]
+          destination_address_prefix   = "*"
+          source_port_ranges           = null
+          destination_port_range       = null
+          source_address_prefixes      = null
+          destination_address_prefixes = null
+        },
+      ]
+    },
+  }
 }
 
 generate "provider" {
@@ -114,4 +141,5 @@ inputs = {
     subnets             = local.subnets
     net_additional_tags = null
     vnet_peering        = local.vnet_peering
+    virtual_network_name= local.virtual_networks.virtualnetwork2.name
 }
