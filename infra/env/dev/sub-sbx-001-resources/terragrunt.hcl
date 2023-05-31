@@ -140,6 +140,7 @@ inputs = {
     virtual_networks        = local.virtual_networks
     subnets                 = local.subnets
     net_additional_tags     = null
+    vnet_peering            = local.vnet_peering
     network_security_groups = local.network_security_groups
     virtual_network_name    = local.virtual_networks.virtualnetwork2.name
 }
