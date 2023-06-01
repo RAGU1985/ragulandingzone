@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "this" {
-  name     = local.rg_name
+  name = local.rg_name
 }
 
 data "azurerm_virtual_network" "this" {
@@ -30,14 +30,6 @@ locals {
     for k, v in var.network_security_groups : k => v if(v.subnet_name != null)
   }
 }
-resource "azurerm_resource_group" "resource_group" {
-  name     = var.net_rg_name
-  location = var.net_location
-  tags = {
-    env          = "prod"
-    automated_by = "ms"
-  }
-}
 
 resource "azurerm_virtual_network" "virtual_network" {
   for_each            = var.virtual_networks
@@ -49,7 +41,6 @@ resource "azurerm_virtual_network" "virtual_network" {
     env          = "prod"
     automated_by = "ms"
   }
-  depends_on = [azurerm_resource_group.resource_group]
 }
 
 resource "azurerm_subnet" "subnet" {
