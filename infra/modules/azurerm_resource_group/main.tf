@@ -35,10 +35,12 @@ locals {
   }
 }
 resource "azurerm_resource_group" "resource_group" {
-  for_each = var.resource_groups
-  name     = each.value["name"]
-  location = each.value["location"]
-  tags     = each.value["tags"]
+  name     = var.net_rg_name
+  location = var.net_location
+  tags = {
+    env          = "prod"
+    automated_by = "ms"
+  }
 }
 
 resource "azurerm_virtual_network" "virtual_network" {

@@ -23,16 +23,6 @@ variable "net_additional_tags" {
   default     = {}
 }
 
-variable "resource_groups" {
-  description = "Resource groups"
-  type = map(object({
-    name     = string
-    location = string
-    tags     = map(string)
-  }))
-  default = {}
-}
-
 variable "virtual_networks" {
   type = map(object({
     name          = string

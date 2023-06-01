@@ -10,26 +10,7 @@ locals {
   env      = local.env_vars.locals.env_name
   mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
-  resource_groups = {
-    resource_group_1 = {
-      name     = "rg-net-itaudev-sbx-brazilsouth-001"
-      location = "brazilsouth"
-      tags = {
-        ApplicationName       = "Compass Data"                               #mandatory
-        ApproverName          = "Daniel Matos Lima"                          #mandatory
-        CostCenter            = "341-43082"                                  #mandatory
-        CreatedWith           = "DevOps"                                     #mandatory
-        Environment           = "dev"                                        #mandatory
-        OwnerName             = "thiago.santos-freitas@itau-unibanco.com.br" #mandatory
-        RequesterName         = "Thiago dos Santos Freitas"                  #mandatory
-        StartDateOfTheProject = "24/05/2023"                                 #mandatory
-        NotificationEmail     = "redmond-camadazero@correio.itau.com.br"     #mandatory
-        ProductOwnerEmail     = "daniel.matos-lima@itau-unibanco.com.br"     #mandatory
-        Sigla                 = "JP7"                                        #mandatory
-        Person                = "Thiago dos Santos Freitas"                  #mandatory
-      }
-    }
-  }
+  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
   virtual_networks = {
     virtualnetwork1 = {
       name                 = "vnet-sandbox-brazilsouth-003"
@@ -86,10 +67,10 @@ locals {
   vnet_peering = {
     akstobastion = {
       destination_vnet_name                 = local.virtual_networks.virtualnetwork1.name
-      destination_vnet_rg                   = local.resource_groups.resource_group_1.name
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.resource_groups.resource_group_1.name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork1.name}"
+      destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork1.name}"
       source_vnet_name                      = local.virtual_networks.virtualnetwork2.name
-      source_vnet_rg                        = local.resource_groups.resource_group_1.name
+      source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
       allow_gateway_transit                 = false
@@ -97,10 +78,10 @@ locals {
     }
     bastiontoaks = {
       destination_vnet_name                 = local.virtual_networks.virtualnetwork2.name
-      destination_vnet_rg                   = local.resource_groups.resource_group_1.name
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.resource_groups.resource_group_1.name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork2.name}"
+      destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork2.name}"
       source_vnet_name                      = local.virtual_networks.virtualnetwork1.name
-      source_vnet_rg                        = local.resource_groups.resource_group_1.name
+      source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
       allow_virtual_network_access          = true
       allow_gateway_transit                 = false
@@ -113,7 +94,7 @@ locals {
       tags                      = null
       subnet_name               = "snet-aks-brazilsouth-001"
       subnet_key                = "subnet4"
-      networking_resource_group = "${local.resource_groups.resource_group_1.name}"
+      networking_resource_group = "rg-net-itaudev-sbx-brazilsouth-002"
       security_rules = [
         {
           name                         = "BastionInbound"
@@ -153,11 +134,10 @@ terraform {
 }
 
 inputs = {
-    net_rg_name             = local.resource_groups.resource_group_1.name
+    net_rg_name             = local.net_rg_name
     net_location            = local.location
     environment             = local.env
     virtual_networks        = local.virtual_networks
-    resource_groups         = local.resource_groups
     subnets                 = local.subnets
     net_additional_tags     = null
     vnet_peering            = local.vnet_peering
