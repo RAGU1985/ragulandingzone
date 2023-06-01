@@ -122,7 +122,7 @@ dependency "azurerm_rg" {
 
   mock_outputs_allowed_terraform_commands = ["plan", "validate", "output", "show"]
   mock_outputs = {
-    net_rg_name = "test-resource-group-001"
+    net_rg_name = "rg-net-itaudev-sbx-brazilsouth-001"
   }
 }
 
