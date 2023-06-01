@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "this" {
-  name = local.rg_name
+  name = var.net_rg_name
 }
 
 data "azurerm_virtual_network" "this" {
