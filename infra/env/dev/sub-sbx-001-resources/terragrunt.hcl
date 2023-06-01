@@ -117,14 +117,13 @@ locals {
   }
 }
 
-dependency "resourcegroup" {
-  config_path = "../sub-sbx-001-rg"
-
-  mock_outputs_allowed_terraform_commands = ["plan", "validate", "output", "show"]
-  mock_outputs = {
-    net_rg_name = "test-resource-group"
-  }
-}
+#dependency "resourcegroup" {
+#  config_path = "../sub-sbx-001-rg"
+#  mock_outputs_allowed_terraform_commands = ["plan", "validate", "output", "show"]
+#  mock_outputs = {
+#    net_rg_name = "test-resource-group"
+#  }
+#}
 
 generate "provider" {
   path      = "provider.tf"
