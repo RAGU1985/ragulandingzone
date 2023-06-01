@@ -88,7 +88,6 @@ resource "azurerm_virtual_network_peering" "source_to_destination" {
   allow_virtual_network_access = coalesce(lookup(each.value, "allow_virtual_network_access"), true)
   allow_gateway_transit        = coalesce(lookup(each.value, "allow_gateway_transit"), false)
   use_remote_gateways          = coalesce(lookup(each.value, "use_remote_gateways"), false)
-
   lifecycle {
     ignore_changes = [remote_virtual_network_id]
   }
