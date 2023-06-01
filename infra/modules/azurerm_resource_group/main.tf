@@ -1,13 +1,14 @@
 data "azurerm_resource_group" "this" {
-  name     = var.net_rg_name
-  depends_on = [ azurerm_resource_group.resource_group ]
+  name       = var.net_rg_name
+  depends_on = [azurerm_resource_group.resource_group]
 }
 
 data "azurerm_virtual_network" "this" {
-  for_each            = local.existing_vnets
+  for_each = local.existing_vnets
 
   name                = each.value
   resource_group_name = var.net_rg_name
+  depends_on          = [azurerm_virtual_network.virtual_network]
 }
 
 data "azurerm_subnet" "this" {
@@ -15,6 +16,7 @@ data "azurerm_subnet" "this" {
   name                 = each.value.subnet_name
   virtual_network_name = var.virtual_network_name
   resource_group_name  = var.net_rg_name
+  depends_on           = [azurerm_subnet.subnet]
 }
 
 locals {
