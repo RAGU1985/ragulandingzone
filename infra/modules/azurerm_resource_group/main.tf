@@ -3,7 +3,8 @@ locals {
 }
 
 data "azurerm_resource_group" "this" {
-  name = local.rg_name
+  count    = var.is_mock ? 0 : 1
+  name     = local.rg_name
 }
 
 data "azurerm_virtual_network" "this" {
