@@ -68,7 +68,7 @@ locals {
     akstobastion = {
       destination_vnet_name                 = local.virtual_networks.virtualnetwork1.name
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-003"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork1.name}"
       source_vnet_name                      = local.virtual_networks.virtualnetwork2.name
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
@@ -79,7 +79,7 @@ locals {
     bastiontoaks = {
       destination_vnet_name                 = local.virtual_networks.virtualnetwork2.name
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-004"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/${local.net_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.virtual_networks.virtualnetwork2.name}"
       source_vnet_name                      = local.virtual_networks.virtualnetwork1.name
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
