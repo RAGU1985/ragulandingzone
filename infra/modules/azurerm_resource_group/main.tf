@@ -1,23 +1,13 @@
-data "azurerm_resource_group" "this" {
-  name = var.net_rg_name
-}
+#data "azurerm_resource_group" "this" {
+#  name = var.net_rg_name
+#}
 
-data "azurerm_virtual_network" "this" {
-  for_each            = local.existing_vnets
-  name                = each.value
-  resource_group_name = var.net_rg_name
-}
 
-data "azurerm_subnet" "this" {
-  for_each             = local.subnet_network_security_group_associations
-  name                 = each.value.subnet_name
-  virtual_network_name = var.virtual_network_name
-  resource_group_name  = var.net_rg_name
-}
+
 
 locals {
-  location = var.net_location
-  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
+#  location = var.net_location
+#  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
 
   existing_vnets = {
     for subnet_k, subnet_v in var.subnets :
@@ -51,6 +41,12 @@ resource "azurerm_virtual_network" "virtual_network" {
   }
   depends_on = [azurerm_resource_group.resource_group]
 }
+
+data "azurerm_virtual_network" "this" {
+  for_each            = local.existing_vnets
+  name                = each.value
+  resource_group_name = var.net_rg_name
+}
 resource "azurerm_subnet" "subnet" {
   for_each                                      = var.subnets
   name                                          = each.value["name"]
@@ -75,6 +71,13 @@ resource "azurerm_subnet" "subnet" {
     }
   }
   depends_on = [azurerm_virtual_network.virtual_network]
+}
+
+data "azurerm_subnet" "this" {
+  for_each             = local.subnet_network_security_group_associations
+  name                 = each.value.subnet_name
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.net_rg_name
 }
 
 
