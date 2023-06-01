@@ -10,7 +10,7 @@ locals {
   env      = local.env_vars.locals.env_name
   mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
-  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
+  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-001"
   virtual_networks = {
     virtualnetwork1 = {
       name                 = "vnet-sandbox-brazilsouth-001"
@@ -68,7 +68,7 @@ locals {
     akstobastion = {
       destination_vnet_name                 = "vnet-sandbox-brazilsouth-001"
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-001"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-001/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-001"
       source_vnet_name                      = "vnet-sandbox-brazilsouth-002"
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
@@ -79,7 +79,7 @@ locals {
     bastiontoaks = {
       destination_vnet_name                 = "vnet-sandbox-brazilsouth-002"
       destination_vnet_rg                   = local.net_rg_name #"[__resource_group_name__]"
-      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-002/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-002"
+      remote_destination_virtual_network_id = "/subscriptions/d7caf0f4-7c69-4c4a-af92-3b52493f74ca/resourceGroups/rg-net-itaudev-sbx-brazilsouth-001/providers/Microsoft.Network/virtualNetworks/vnet-sandbox-brazilsouth-002"
       source_vnet_name                      = "vnet-sandbox-brazilsouth-001"
       source_vnet_rg                        = local.net_rg_name
       allow_forwarded_traffic               = true
