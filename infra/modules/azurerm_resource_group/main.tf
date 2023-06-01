@@ -1,5 +1,6 @@
 data "azurerm_resource_group" "this" {
   name     = var.net_rg_name
+  depends_on = [ azurerm_resource_group.resource_group ]
 }
 
 data "azurerm_virtual_network" "this" {
