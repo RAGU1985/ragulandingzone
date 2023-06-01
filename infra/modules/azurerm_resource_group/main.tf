@@ -21,8 +21,6 @@ data "azurerm_subnet" "this" {
 
 locals {
   location = var.net_location
-  tags     = merge(data.azurerm_resource_group.this.tags, var.net_additional_tags)
-
   existing_vnets = {
     for subnet_k, subnet_v in var.subnets :
     subnet_k => subnet_v.vnet_name if(subnet_v.vnet_key == null && subnet_v.vnet_name != null)
@@ -37,10 +35,7 @@ locals {
 resource "azurerm_resource_group" "resource_group" {
   name     = var.net_rg_name
   location = var.net_location
-  tags = {
-    env          = "prod"
-    automated_by = "ms"
-  }
+  tags     = var.tags
 }
 
 resource "azurerm_virtual_network" "virtual_network" {
@@ -49,11 +44,8 @@ resource "azurerm_virtual_network" "virtual_network" {
   location            = var.net_location
   resource_group_name = var.net_rg_name
   address_space       = each.value["address_space"]
-  tags = {
-    env          = "prod"
-    automated_by = "ms"
-  }
-  depends_on = [azurerm_resource_group.resource_group]
+  tags                = var.tags
+  depends_on          = [azurerm_resource_group.resource_group]
 }
 
 resource "azurerm_subnet" "subnet" {
