@@ -10,7 +10,7 @@ locals {
   env      = local.env_vars.locals.env_name
   mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
-  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
+  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-001"
   virtual_networks = {
     virtualnetwork1 = {
       name                 = "vnet-sandbox-brazilsouth-003"
@@ -94,7 +94,7 @@ locals {
       tags                      = null
       subnet_name               = "snet-aks-brazilsouth-001"
       subnet_key                = "subnet4"
-      networking_resource_group = "rg-net-itaudev-sbx-brazilsouth-002"
+      networking_resource_group = "${local.net_rg_name}"
       security_rules = [
         {
           name                         = "BastionInbound"
