@@ -1,3 +1,8 @@
+variable "is_mock" {
+  description = "Flag indicating whether to use mock values"
+  type        = bool
+  default     = true
+}
 variable "environment" {
   type        = string
   description = "environment type"
