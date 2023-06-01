@@ -113,7 +113,7 @@ locals {
       tags                      = null
       subnet_name               = "snet-aks-brazilsouth-001"
       subnet_key                = "subnet4"
-      networking_resource_group = "rg-net-itaudev-sbx-brazilsouth-002"
+      networking_resource_group = "${local.resource_groups.resource_group_1.name}"
       security_rules = [
         {
           name                         = "BastionInbound"
