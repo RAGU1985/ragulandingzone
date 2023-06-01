@@ -10,7 +10,26 @@ locals {
   env      = local.env_vars.locals.env_name
   mghead   = local.env_vars.locals.mghead
   provider_version = "3.52.0"
-  net_rg_name = "rg-net-${local.mghead}-sbx-${local.location}-002"
+  resource_groups = {
+    resource_group_1 = {
+      name     = "rg-net-itaudev-sbx-brazilsouth-001"
+      location = "brazilsouth"
+      tags = {
+        ApplicationName       = "Compass Data"                               #mandatory
+        ApproverName          = "Daniel Matos Lima"                          #mandatory
+        CostCenter            = "341-43082"                                  #mandatory
+        CreatedWith           = "DevOps"                                     #mandatory
+        Environment           = "dev"                                        #mandatory
+        OwnerName             = "thiago.santos-freitas@itau-unibanco.com.br" #mandatory
+        RequesterName         = "Thiago dos Santos Freitas"                  #mandatory
+        StartDateOfTheProject = "24/05/2023"                                 #mandatory
+        NotificationEmail     = "redmond-camadazero@correio.itau.com.br"     #mandatory
+        ProductOwnerEmail     = "daniel.matos-lima@itau-unibanco.com.br"     #mandatory
+        Sigla                 = "JP7"                                        #mandatory
+        Person                = "Thiago dos Santos Freitas"                  #mandatory
+      }
+    }
+  }
   virtual_networks = {
     virtualnetwork1 = {
       name                 = "vnet-sandbox-brazilsouth-003"
@@ -134,10 +153,11 @@ terraform {
 }
 
 inputs = {
-    net_rg_name             = local.net_rg_name
+    net_rg_name             = local.resource_groups.resource_group_1.name
     net_location            = local.location
     environment             = local.env
     virtual_networks        = local.virtual_networks
+    resource_groups         = local.resource_groups
     subnets                 = local.subnets
     net_additional_tags     = null
     vnet_peering            = local.vnet_peering
