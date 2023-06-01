@@ -117,7 +117,7 @@ locals {
   }
 }
 
-dependency "azurerm_rg" {
+dependency "net_rg_name" {
   config_path = "../sub-sbx-001-rg"
 
   mock_outputs_allowed_terraform_commands = ["plan", "validate", "output", "show"]
@@ -143,7 +143,7 @@ terraform {
 }
 
 inputs = {
-    net_rg_name             = dependency.azurerm_rg.outputs.net_rg_name
+    net_rg_name             = dependency.net_rg_name.outputs.net_rg_name
     net_location            = local.location
     environment             = local.env
     virtual_networks        = local.virtual_networks
