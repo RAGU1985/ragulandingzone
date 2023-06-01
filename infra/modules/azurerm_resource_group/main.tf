@@ -1,9 +1,4 @@
-locals {
-  rg_name = var.is_mock ? "mock-resource-group" : "rg-net-itaudev-sbx-brazilsouth-002"
-}
-
 data "azurerm_resource_group" "this" {
-  count    = var.is_mock ? 0 : 1
   name     = local.rg_name
 }
 
