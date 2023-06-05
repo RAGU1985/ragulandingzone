@@ -1,3 +1,9 @@
+resource "null_resource" "delay" {
+  provisioner "local-exec" {
+    command = "sleep 300"  # Wait for 5 minutes (adjust as needed)
+  }
+}
+
 data "azurerm_resource_group" "this" {
   name       = var.net_rg_name
   depends_on = [azurerm_resource_group.resource_group]
@@ -36,6 +42,7 @@ resource "azurerm_resource_group" "resource_group" {
   name     = var.net_rg_name
   location = var.net_location
   tags     = var.tags
+  depends_on = [null_resource.delay]
 }
 
 resource "azurerm_virtual_network" "virtual_network" {
@@ -123,4 +130,5 @@ resource "azurerm_subnet_network_security_group_association" "nsg-assoc" {
   for_each                  = local.subnet_network_security_group_associations
   subnet_id                 = lookup(data.azurerm_subnet.this, each.key)["id"]
   network_security_group_id = azurerm_network_security_group.nsg[each.key]["id"]
+  depends_on = [azurerm_subnet.subnet]
 }
