@@ -54,7 +54,6 @@ resource "azurerm_virtual_network" "virtual_network" {
   tags                = var.tags
   depends_on          = [azurerm_resource_group.resource_group]
 }
-
 resource "azurerm_subnet" "subnet" {
   for_each                                      = var.subnets
   name                                          = each.value["name"]
