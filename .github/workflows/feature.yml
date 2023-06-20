@@ -136,6 +136,5 @@ jobs:
   
       - name: Read TFPLAN file
         run: |
-          TFPLAN_CONTENTS=$(cat tfplan)
-          echo "TFPLAN_CONTENTS=$TFPLAN_CONTENTS" >> $GITHUB_ENV
+          cat tfplan
 
